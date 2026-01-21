@@ -21,7 +21,7 @@
                 </div>
                 <nav class="nav">
                     <a href="#exercises" class="nav-link">Cvičení</a>
-                    <a href="#how-to" class="nav-link">Jak přidat</a>
+                    <a href="#how-to" class="nav-link" id="adminNavLink" hidden>Jak přidat</a>
                 </nav>
             </div>
         </header>
@@ -48,8 +48,8 @@
             </div>
         </section>
 
-        <!-- Upload Section -->
-        <section class="upload-section" id="upload">
+        <!-- Upload Section (hidden by default, shown with ?admin) -->
+        <section class="upload-section" id="upload" hidden>
             <div class="container">
                 <!-- GitHub Settings -->
                 <div class="github-settings" id="githubSettings">
@@ -102,8 +102,8 @@
             </div>
         </section>
 
-        <!-- How To Section -->
-        <section class="how-to-section" id="how-to">
+        <!-- How To Section (hidden by default, shown with ?admin) -->
+        <section class="how-to-section" id="how-to" hidden>
             <div class="container">
                 <h2 class="section-title">📖 Jak přidat cvičení</h2>
                 <div class="steps-grid">

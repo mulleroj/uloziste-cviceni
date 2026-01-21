@@ -42,6 +42,17 @@ const elements = {
 
 // ===== Initialize =====
 document.addEventListener('DOMContentLoaded', async () => {
+    // Check for admin mode
+    const isAdmin = new URLSearchParams(window.location.search).has('admin');
+    if (isAdmin) {
+        const uploadSection = document.getElementById('upload');
+        const howToSection = document.getElementById('how-to');
+        const adminNavLink = document.getElementById('adminNavLink');
+        if (uploadSection) uploadSection.hidden = false;
+        if (howToSection) howToSection.hidden = false;
+        if (adminNavLink) adminNavLink.hidden = false;
+    }
+
     loadGitHubSettings();
     initUploadZone();
     initModal();
