@@ -17,6 +17,7 @@ const CONFIG = {
 // ===== State =====
 let exercises = [];
 let builtExercises = [];
+let isAdmin = false;
 let githubSettings = {
     token: '',
     repo: 'mulleroj/uloziste-cviceni'
@@ -43,7 +44,7 @@ const elements = {
 // ===== Initialize =====
 document.addEventListener('DOMContentLoaded', async () => {
     // Check for admin mode
-    const isAdmin = new URLSearchParams(window.location.search).has('admin');
+    isAdmin = new URLSearchParams(window.location.search).has('admin');
     if (isAdmin) {
         const uploadSection = document.getElementById('upload');
         const howToSection = document.getElementById('how-to');
@@ -343,6 +344,10 @@ function renderExercises() {
                     <button class="btn btn-primary" onclick="launchExercise('${exercise.id}')">
                         ▶️ Spustit
                     </button>
+                    ${isAdmin ? `
+                    <button class="btn btn-danger btn-sm" onclick="deleteExercise('${exercise.id}')">
+                        🗑️ Smazat
+                    </button>` : ''}
                 </div>
             </div>
         </article>
@@ -439,5 +444,118 @@ function showNotification(message, type = 'info') {
     setTimeout(() => notification.remove(), 5000);
 }
 
+// ===== Delete Exercise =====
+function deleteExercise(id) {
+    const exercise = builtExercises.find(e => e.id === id);
+    if (!exercise) return;
+
+    // Check if GitHub settings are configured
+    if (!githubSettings.token) {
+        showNotification('Nejdříve zadejte GitHub token v nastavení výše', 'error');
+        return;
+    }
+
+    // Create confirmation modal
+    const modal = document.createElement('div');
+    modal.className = 'confirm-modal';
+    modal.innerHTML = `
+        <div class="confirm-modal-backdrop" onclick="this.parentElement.remove()"></div>
+        <div class="confirm-modal-content">
+            <div class="confirm-icon">🗑️</div>
+            <h3>Smazat cvičení?</h3>
+            <p>Opravdu chcete smazat <strong>${escapeHtml(exercise.name)}</strong>?</p>
+            <p class="confirm-warning">Tato akce je nevratná!</p>
+            <div class="confirm-actions">
+                <button class="btn btn-secondary" onclick="this.closest('.confirm-modal').remove()">
+                    Zrušit
+                </button>
+                <button class="btn btn-danger" onclick="confirmDelete('${exercise.id}'); this.closest('.confirm-modal').remove();">
+                    🗑️ Smazat
+                </button>
+            </div>
+        </div>
+    `;
+    document.body.appendChild(modal);
+}
+
+async function confirmDelete(id) {
+    const exercise = builtExercises.find(e => e.id === id);
+    if (!exercise) return;
+
+    showNotification('Mažu cvičení...', 'info');
+
+    try {
+        const folderPath = `exercises/${exercise.folder}`;
+        const success = await deleteFromGitHub(folderPath);
+
+        if (success) {
+            // Remove from local array
+            builtExercises = builtExercises.filter(e => e.id !== id);
+            renderExercises();
+            showNotification(`✅ Cvičení "${exercise.name}" bylo smazáno!`, 'success');
+        } else {
+            showNotification('Nepodařilo se smazat cvičení', 'error');
+        }
+    } catch (error) {
+        console.error('Delete error:', error);
+        showNotification(`Chyba při mazání: ${error.message}`, 'error');
+    }
+}
+
+async function deleteFromGitHub(folderPath) {
+    const [owner, repo] = githubSettings.repo.split('/');
+
+    try {
+        // First, get all files in the folder
+        const listUrl = `https://api.github.com/repos/${owner}/${repo}/contents/${folderPath}`;
+        const listResponse = await fetch(listUrl, {
+            headers: {
+                'Authorization': `Bearer ${githubSettings.token}`,
+                'Accept': 'application/vnd.github.v3+json'
+            }
+        });
+
+        if (!listResponse.ok) {
+            throw new Error(`Složka nenalezena: ${listResponse.status}`);
+        }
+
+        const files = await listResponse.json();
+
+        // Delete each file one by one
+        for (const file of files) {
+            if (file.type === 'dir') {
+                // Recursively delete subdirectories
+                await deleteFromGitHub(file.path);
+            } else {
+                // Delete file
+                const deleteUrl = `https://api.github.com/repos/${owner}/${repo}/contents/${file.path}`;
+                const deleteResponse = await fetch(deleteUrl, {
+                    method: 'DELETE',
+                    headers: {
+                        'Authorization': `Bearer ${githubSettings.token}`,
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/vnd.github.v3+json'
+                    },
+                    body: JSON.stringify({
+                        message: `🗑️ Smazáno: ${file.path}`,
+                        sha: file.sha
+                    })
+                });
+
+                if (!deleteResponse.ok) {
+                    console.error(`Failed to delete ${file.path}`);
+                }
+            }
+        }
+
+        return true;
+    } catch (error) {
+        console.error('GitHub delete error:', error);
+        throw error;
+    }
+}
+
 // ===== Expose functions globally =====
 window.launchExercise = launchExercise;
+window.deleteExercise = deleteExercise;
+window.confirmDelete = confirmDelete;
