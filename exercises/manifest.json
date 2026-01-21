@@ -8,6 +8,15 @@
       "created": "2026-01-20",
       "folder": "grammar-master-comparatives-superlatives",
       "isBuilt": true
+    },
+    {
+      "id": "built-plur-ln-mistr-nepravideln-tvary",
+      "name": "plurální-mistr:-nepravidelné-tvary",
+      "description": "Cvičení z AI Studio Builderu",
+      "icon": "🎮",
+      "created": "2026-01-21",
+      "folder": "plur-ln-mistr-nepravideln-tvary",
+      "isBuilt": true
     }
   ]
 }
