@@ -1,0 +1,13 @@
+{
+  "name": "cviceni-uloziste",
+  "version": "1.0.0",
+  "description": "Úložiště cvičení z AI Studio Builderu",
+  "scripts": {
+    "dev": "serve .",
+    "add-exercise": "node scripts/build-exercise.js"
+  },
+  "devDependencies": {
+    "adm-zip": "^0.5.16",
+    "serve": "^14.2.0"
+  }
+}

@@ -1,0 +1,35 @@
+
+import { Question } from './types';
+
+export const QUESTIONS_DATA: Question[] = [
+  { "id": 1, "question": "My car is ___ than yours.", "adjective": "fast", "correctAnswer": "faster", "type": "comparative" },
+  { "id": 2, "question": "This is the ___ building in the city.", "adjective": "tall", "correctAnswer": "tallest", "type": "superlative" },
+  { "id": 3, "question": "Summer is usually ___ than winter.", "adjective": "hot", "correctAnswer": "hotter", "type": "comparative" },
+  { "id": 4, "question": "Elephants are ___ than lions.", "adjective": "heavy", "correctAnswer": "heavier", "type": "comparative" },
+  { "id": 5, "question": "This puzzle is the ___ one in the book.", "adjective": "easy", "correctAnswer": "easiest", "type": "superlative" },
+  { "id": 6, "question": "I think maths is ___ than history.", "adjective": "difficult", "correctAnswer": "more difficult", "type": "comparative" },
+  { "id": 7, "question": "Who is the ___ person in your family?", "adjective": "old", "correctAnswer": "oldest", "type": "superlative" },
+  { "id": 8, "question": "The weather today is ___ than yesterday.", "adjective": "bad", "correctAnswer": "worse", "type": "comparative" },
+  { "id": 9, "question": "She is the ___ singer in the group.", "adjective": "good", "correctAnswer": "best", "type": "superlative" },
+  { "id": 10, "question": "A car is ___ than a bicycle.", "adjective": "expensive", "correctAnswer": "more expensive", "type": "comparative" },
+  { "id": 11, "question": "This was the ___ movie I have ever seen.", "adjective": "boring", "correctAnswer": "most boring", "type": "superlative" },
+  { "id": 12, "question": "Your dog is ___ than my dog.", "adjective": "big", "correctAnswer": "bigger", "type": "comparative" },
+  { "id": 13, "question": "Please, be ___ in the library.", "adjective": "quiet", "correctAnswer": "quieter", "type": "comparative" },
+  { "id": 14, "question": "China is ___ than France.", "adjective": "large", "correctAnswer": "larger", "type": "comparative" },
+  { "id": 15, "question": "What is the ___ place on Earth?", "adjective": "cold", "correctAnswer": "coldest", "type": "superlative" },
+  { "id": 16, "question": "I am feeling ___ today than I was yesterday.", "adjective": "good", "correctAnswer": "better", "type": "comparative" },
+  { "id": 17, "question": "The cheetah is the ___ land animal.", "adjective": "fast", "correctAnswer": "fastest", "type": "superlative" },
+  { "id": 18, "question": "Sharks are ___ than dolphins.", "adjective": "dangerous", "correctAnswer": "more dangerous", "type": "comparative" },
+  { "id": 19, "question": "It is the ___ day of my life.", "adjective": "happy", "correctAnswer": "happiest", "type": "superlative" },
+  { "id": 20, "question": "My bedroom is ___ than yours.", "adjective": "tidy", "correctAnswer": "tidier", "type": "comparative" },
+  { "id": 21, "question": "This is the ___ pizza in town.", "adjective": "delicious", "correctAnswer": "most delicious", "type": "superlative" },
+  { "id": 22, "question": "Trains are ___ than buses.", "adjective": "comfortable", "correctAnswer": "more comfortable", "type": "comparative" },
+  { "id": 23, "question": "Mount Everest is the ___ mountain in the world.", "adjective": "high", "correctAnswer": "highest", "type": "superlative" },
+  { "id": 24, "question": "This exercise is ___ than the last one.", "adjective": "simple", "correctAnswer": "simpler", "type": "comparative" },
+  { "id": 25, "question": "He is the ___ player on the team.", "adjective": "bad", "correctAnswer": "worst", "type": "superlative" },
+  { "id": 26, "question": "London is ___ from here than Paris.", "adjective": "far", "correctAnswer": "further", "type": "comparative" },
+  { "id": 27, "question": "Is English ___ to learn than Chinese?", "adjective": "easy", "correctAnswer": "easier", "type": "comparative" },
+  { "id": 28, "question": "That was the ___ joke ever!", "adjective": "funny", "correctAnswer": "funniest", "type": "superlative" },
+  { "id": 29, "question": "Gold is ___ than silver.", "adjective": "expensive", "correctAnswer": "more expensive", "type": "comparative" },
+  { "id": 30, "question": "The Nile is the ___ river in the world.", "adjective": "long", "correctAnswer": "longest", "type": "superlative" }
+];
