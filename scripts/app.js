@@ -345,6 +345,9 @@ function renderExercises() {
                         ▶️ Spustit
                     </button>
                     ${isAdmin ? `
+                    <button class="btn btn-secondary btn-sm" onclick="editExercise('${exercise.id}')">
+                        ✏️ Upravit
+                    </button>
                     <button class="btn btn-danger btn-sm" onclick="deleteExercise('${exercise.id}')">
                         🗑️ Smazat
                     </button>` : ''}
@@ -559,3 +562,150 @@ async function deleteFromGitHub(folderPath) {
 window.launchExercise = launchExercise;
 window.deleteExercise = deleteExercise;
 window.confirmDelete = confirmDelete;
+window.editExercise = editExercise;
+window.saveExercise = saveExercise;
+
+// ===== Edit Exercise =====
+function editExercise(id) {
+    const exercise = builtExercises.find(e => e.id === id);
+    if (!exercise) return;
+
+    // Check if GitHub settings are configured
+    if (!githubSettings.token) {
+        showNotification('Nejdříve zadejte GitHub token v nastavení výše', 'error');
+        return;
+    }
+
+    // Create edit modal
+    const modal = document.createElement('div');
+    modal.className = 'edit-modal';
+    modal.id = 'editModal';
+    modal.innerHTML = `
+        <div class="edit-modal-backdrop" onclick="this.parentElement.remove()"></div>
+        <div class="edit-modal-content">
+            <div class="edit-header">
+                <span class="edit-icon">✏️</span>
+                <h3>Upravit cvičení</h3>
+            </div>
+            <form id="editForm" onsubmit="saveExercise('${exercise.id}'); return false;">
+                <div class="form-group">
+                    <label for="editName">Název:</label>
+                    <input type="text" id="editName" value="${escapeHtml(exercise.name)}" required>
+                </div>
+                <div class="form-group">
+                    <label for="editDescription">Popis:</label>
+                    <textarea id="editDescription" rows="3">${escapeHtml(exercise.description)}</textarea>
+                </div>
+                <div class="form-group">
+                    <label for="editIcon">Ikona (emoji):</label>
+                    <input type="text" id="editIcon" value="${exercise.icon}" maxlength="4">
+                </div>
+                <div class="edit-actions">
+                    <button type="button" class="btn btn-secondary" onclick="this.closest('.edit-modal').remove()">
+                        Zrušit
+                    </button>
+                    <button type="submit" class="btn btn-primary">
+                        💾 Uložit
+                    </button>
+                </div>
+            </form>
+        </div>
+    `;
+    document.body.appendChild(modal);
+
+    // Focus on name input
+    document.getElementById('editName').focus();
+}
+
+async function saveExercise(id) {
+    const exercise = builtExercises.find(e => e.id === id);
+    if (!exercise) return;
+
+    const newName = document.getElementById('editName').value.trim();
+    const newDescription = document.getElementById('editDescription').value.trim();
+    const newIcon = document.getElementById('editIcon').value.trim() || '🎮';
+
+    if (!newName) {
+        showNotification('Název nesmí být prázdný', 'error');
+        return;
+    }
+
+    // Close modal
+    const modal = document.getElementById('editModal');
+    if (modal) modal.remove();
+
+    showNotification('Ukládám změny...', 'info');
+
+    try {
+        const meta = {
+            name: newName,
+            description: newDescription || 'Cvičení z AI Studio Builderu',
+            icon: newIcon,
+            updated: new Date().toISOString().split('T')[0]
+        };
+
+        const success = await updateMetaJson(exercise.folder, meta);
+
+        if (success) {
+            // Update local array
+            exercise.name = newName;
+            exercise.description = newDescription || 'Cvičení z AI Studio Builderu';
+            exercise.icon = newIcon;
+            renderExercises();
+            showNotification(`✅ Cvičení "${newName}" bylo aktualizováno!`, 'success');
+        } else {
+            showNotification('Nepodařilo se uložit změny', 'error');
+        }
+    } catch (error) {
+        console.error('Save error:', error);
+        showNotification(`Chyba při ukládání: ${error.message}`, 'error');
+    }
+}
+
+async function updateMetaJson(folder, meta) {
+    const [owner, repo] = githubSettings.repo.split('/');
+    const path = `exercises/${folder}/meta.json`;
+    const url = `https://api.github.com/repos/${owner}/${repo}/contents/${path}`;
+
+    try {
+        // First, get the current file to obtain its SHA
+        const getResponse = await fetch(url, {
+            headers: {
+                'Authorization': `Bearer ${githubSettings.token}`,
+                'Accept': 'application/vnd.github.v3+json'
+            }
+        });
+
+        let sha = null;
+        if (getResponse.ok) {
+            const fileData = await getResponse.json();
+            sha = fileData.sha;
+        }
+
+        // Update or create the file
+        const content = btoa(unescape(encodeURIComponent(JSON.stringify(meta, null, 2))));
+        const body = {
+            message: `✏️ Aktualizováno: ${meta.name}`,
+            content: content
+        };
+
+        if (sha) {
+            body.sha = sha;
+        }
+
+        const updateResponse = await fetch(url, {
+            method: 'PUT',
+            headers: {
+                'Authorization': `Bearer ${githubSettings.token}`,
+                'Content-Type': 'application/json',
+                'Accept': 'application/vnd.github.v3+json'
+            },
+            body: JSON.stringify(body)
+        });
+
+        return updateResponse.ok;
+    } catch (error) {
+        console.error('Update meta.json error:', error);
+        throw error;
+    }
+}
