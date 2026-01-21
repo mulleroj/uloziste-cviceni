@@ -1,9 +1,6 @@
 {
-  "id": "built-plur-ln-mistr-nepravideln-tvary",
-  "name": "plurální-mistr:-nepravidelné-tvary",
-  "description": "Cvičení z AI Studio Builderu",
+  "name": "Unit1: Plural Nouns",
+  "description": "Procvičte si pravidelné a nepravidelné množné číslo. Cvičení z AI Studio Builderu",
   "icon": "🎮",
-  "created": "2026-01-21",
-  "folder": "plur-ln-mistr-nepravideln-tvary",
-  "isBuilt": true
+  "updated": "2026-01-21"
 }
