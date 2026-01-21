@@ -494,6 +494,10 @@ async function confirmDelete(id) {
         if (success) {
             // Remove from local array
             builtExercises = builtExercises.filter(e => e.id !== id);
+
+            // Update manifest.json on GitHub
+            await updateManifest();
+
             renderExercises();
             showNotification(`✅ Cvičení "${exercise.name}" bylo smazáno!`, 'success');
         } else {
@@ -651,6 +655,10 @@ async function saveExercise(id) {
             exercise.name = newName;
             exercise.description = newDescription || 'Cvičení z AI Studio Builderu';
             exercise.icon = newIcon;
+
+            // Update manifest.json on GitHub
+            await updateManifest();
+
             renderExercises();
             showNotification(`✅ Cvičení "${newName}" bylo aktualizováno!`, 'success');
         } else {
@@ -707,5 +715,71 @@ async function updateMetaJson(folder, meta) {
     } catch (error) {
         console.error('Update meta.json error:', error);
         throw error;
+    }
+}
+
+// ===== Update Manifest on GitHub =====
+async function updateManifest() {
+    const [owner, repo] = githubSettings.repo.split('/');
+    const path = 'exercises/manifest.json';
+    const url = `https://api.github.com/repos/${owner}/${repo}/contents/${path}`;
+
+    try {
+        // First, get the current manifest to obtain its SHA
+        const getResponse = await fetch(url, {
+            headers: {
+                'Authorization': `Bearer ${githubSettings.token}`,
+                'Accept': 'application/vnd.github.v3+json'
+            }
+        });
+
+        let sha = null;
+        if (getResponse.ok) {
+            const fileData = await getResponse.json();
+            sha = fileData.sha;
+        }
+
+        // Build new manifest from current builtExercises array
+        const manifest = {
+            exercises: builtExercises.map(e => ({
+                id: e.id,
+                name: e.name,
+                description: e.description,
+                icon: e.icon,
+                created: e.created || new Date().toISOString().split('T')[0],
+                folder: e.folder,
+                isBuilt: true
+            }))
+        };
+
+        // Update manifest.json
+        const content = btoa(unescape(encodeURIComponent(JSON.stringify(manifest, null, 2))));
+        const body = {
+            message: '📄 Aktualizován manifest.json',
+            content: content
+        };
+
+        if (sha) {
+            body.sha = sha;
+        }
+
+        const updateResponse = await fetch(url, {
+            method: 'PUT',
+            headers: {
+                'Authorization': `Bearer ${githubSettings.token}`,
+                'Content-Type': 'application/json',
+                'Accept': 'application/vnd.github.v3+json'
+            },
+            body: JSON.stringify(body)
+        });
+
+        if (!updateResponse.ok) {
+            console.error('Failed to update manifest.json');
+        }
+
+        return updateResponse.ok;
+    } catch (error) {
+        console.error('Update manifest error:', error);
+        return false;
     }
 }
