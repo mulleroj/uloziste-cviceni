@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="cs">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,6 +9,7 @@
     <link rel="stylesheet" href="styles/main.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
+
 <body>
     <div class="app">
         <!-- Header -->
@@ -49,6 +51,27 @@
         <!-- Upload Section -->
         <section class="upload-section" id="upload">
             <div class="container">
+                <!-- GitHub Settings -->
+                <div class="github-settings" id="githubSettings">
+                    <div class="settings-header">
+                        <span class="settings-icon">⚙️</span>
+                        <h3>Nastavení GitHub uploadu</h3>
+                    </div>
+                    <div class="settings-form">
+                        <div class="form-group">
+                            <label for="githubToken">GitHub Token:</label>
+                            <input type="password" id="githubToken" placeholder="ghp_xxxxxxxx..." autocomplete="off">
+                            <small>Token se ukládá pouze v prohlížeči</small>
+                        </div>
+                        <div class="form-group">
+                            <label for="githubRepo">Repozitář:</label>
+                            <input type="text" id="githubRepo" value="mulleroj/uloziste-cviceni"
+                                placeholder="vlastnik/repo">
+                        </div>
+                        <button class="btn btn-secondary" id="saveSettings">💾 Uložit nastavení</button>
+                    </div>
+                </div>
+
                 <div class="upload-zone" id="uploadZone">
                     <div class="upload-icon">📦</div>
                     <h3 class="upload-title">Přetáhněte ZIP soubor sem</h3>
@@ -138,4 +161,5 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
     <script src="scripts/app.js"></script>
 </body>
+
 </html>

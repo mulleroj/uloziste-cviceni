@@ -1,20 +1,26 @@
 /**
  * Úložiště cvičení - Main Application Logic
- * Supports both:
+ * Supports:
  * 1. Built exercises from exercises/ folder (production)
- * 2. ZIP upload for quick testing (development)
+ * 2. ZIP upload to GitHub via API (web-based workflow)
  */
 
 // ===== Configuration =====
 const CONFIG = {
     storageKey: 'exercises-repository',
+    githubSettingsKey: 'github-settings',
     exercisesFolder: 'exercises',
-    exercisesManifest: 'exercises/manifest.json'
+    exercisesManifest: 'exercises/manifest.json',
+    uploadsFolder: 'uploads'
 };
 
 // ===== State =====
 let exercises = [];
 let builtExercises = [];
+let githubSettings = {
+    token: '',
+    repo: 'mulleroj/uloziste-cviceni'
+};
 
 // ===== DOM Elements =====
 const elements = {
@@ -27,16 +33,55 @@ const elements = {
     emptyState: document.getElementById('emptyState'),
     modal: document.getElementById('exerciseModal'),
     modalClose: document.getElementById('modalClose'),
-    exerciseFrame: document.getElementById('exerciseFrame')
+    exerciseFrame: document.getElementById('exerciseFrame'),
+    // GitHub settings elements
+    githubToken: document.getElementById('githubToken'),
+    githubRepo: document.getElementById('githubRepo'),
+    saveSettings: document.getElementById('saveSettings')
 };
 
 // ===== Initialize =====
 document.addEventListener('DOMContentLoaded', async () => {
+    loadGitHubSettings();
     initUploadZone();
     initModal();
+    initSettingsForm();
     await loadBuiltExercises();
     renderExercises();
 });
+
+// ===== GitHub Settings =====
+function loadGitHubSettings() {
+    try {
+        const saved = localStorage.getItem(CONFIG.githubSettingsKey);
+        if (saved) {
+            githubSettings = JSON.parse(saved);
+            if (elements.githubToken) {
+                elements.githubToken.value = githubSettings.token || '';
+            }
+            if (elements.githubRepo) {
+                elements.githubRepo.value = githubSettings.repo || 'mulleroj/uloziste-cviceni';
+            }
+        }
+    } catch (e) {
+        console.warn('Could not load GitHub settings:', e);
+    }
+}
+
+function saveGitHubSettings() {
+    githubSettings = {
+        token: elements.githubToken?.value || '',
+        repo: elements.githubRepo?.value || 'mulleroj/uloziste-cviceni'
+    };
+    localStorage.setItem(CONFIG.githubSettingsKey, JSON.stringify(githubSettings));
+    showNotification('Nastavení uloženo!', 'success');
+}
+
+function initSettingsForm() {
+    if (elements.saveSettings) {
+        elements.saveSettings.addEventListener('click', saveGitHubSettings);
+    }
+}
 
 // ===== Load Built Exercises from exercises/ folder =====
 async function loadBuiltExercises() {
@@ -112,6 +157,8 @@ async function scanExercisesFolder() {
 function initUploadZone() {
     const { uploadZone, fileInput } = elements;
 
+    if (!uploadZone || !fileInput) return;
+
     uploadZone.addEventListener('click', () => fileInput.click());
 
     fileInput.addEventListener('change', (e) => {
@@ -142,25 +189,128 @@ function initUploadZone() {
     });
 }
 
-// ===== File Upload Handler (for testing) =====
+// ===== File Upload Handler - Upload to GitHub =====
 async function handleFileUpload(file) {
     const { uploadProgress, progressFill, progressText } = elements;
 
-    showNotification('Pro přidání cvičení použijte: npm run add-exercise <cesta-k-zip>', 'info');
+    // Check if GitHub settings are configured
+    if (!githubSettings.token) {
+        showNotification('Nejdříve zadejte GitHub token v nastavení výše', 'error');
+        return;
+    }
+
+    if (!githubSettings.repo) {
+        showNotification('Nejdříve zadejte GitHub repozitář v nastavení výše', 'error');
+        return;
+    }
 
     uploadProgress.hidden = false;
-    progressText.textContent = 'Tato funkce je pouze pro testování...';
-    progressFill.style.width = '100%';
+    progressText.textContent = 'Připravuji soubor...';
+    progressFill.style.width = '20%';
 
-    setTimeout(() => {
-        uploadProgress.hidden = true;
+    try {
+        // Convert file to base64
+        const base64Content = await fileToBase64(file);
+
+        progressText.textContent = 'Nahrávám na GitHub...';
+        progressFill.style.width = '50%';
+
+        // Upload to GitHub
+        const fileName = file.name.replace(/[^a-zA-Z0-9.-]/g, '-');
+        const path = `uploads/${fileName}`;
+
+        const result = await uploadToGitHub(path, base64Content, `📦 Upload: ${file.name}`);
+
+        if (result.success) {
+            progressText.textContent = 'Úspěšně nahráno! GitHub Actions zpracovává...';
+            progressFill.style.width = '100%';
+
+            showNotification(
+                '✅ ZIP nahrán na GitHub! Za ~2 minuty bude cvičení dostupné.',
+                'success'
+            );
+
+            setTimeout(() => {
+                uploadProgress.hidden = true;
+                progressFill.style.width = '0%';
+            }, 5000);
+        } else {
+            throw new Error(result.error || 'Upload failed');
+        }
+
+    } catch (error) {
+        console.error('Upload error:', error);
+        progressText.textContent = 'Chyba při nahrávání';
         progressFill.style.width = '0%';
-    }, 3000);
+
+        let errorMessage = 'Nahrávání selhalo: ';
+        if (error.message.includes('401')) {
+            errorMessage += 'Neplatný GitHub token';
+        } else if (error.message.includes('404')) {
+            errorMessage += 'Repozitář nenalezen';
+        } else if (error.message.includes('422')) {
+            errorMessage += 'Soubor již existuje';
+        } else {
+            errorMessage += error.message;
+        }
+
+        showNotification(errorMessage, 'error');
+
+        setTimeout(() => {
+            uploadProgress.hidden = true;
+        }, 3000);
+    }
+}
+
+// Convert file to base64
+function fileToBase64(file) {
+    return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => {
+            // Remove data URL prefix to get just base64
+            const base64 = reader.result.split(',')[1];
+            resolve(base64);
+        };
+        reader.onerror = reject;
+        reader.readAsDataURL(file);
+    });
+}
+
+// Upload file to GitHub via API
+async function uploadToGitHub(path, base64Content, message) {
+    const [owner, repo] = githubSettings.repo.split('/');
+    const url = `https://api.github.com/repos/${owner}/${repo}/contents/${path}`;
+
+    try {
+        const response = await fetch(url, {
+            method: 'PUT',
+            headers: {
+                'Authorization': `Bearer ${githubSettings.token}`,
+                'Content-Type': 'application/json',
+                'Accept': 'application/vnd.github.v3+json'
+            },
+            body: JSON.stringify({
+                message: message,
+                content: base64Content
+            })
+        });
+
+        if (!response.ok) {
+            const data = await response.json().catch(() => ({}));
+            throw new Error(data.message || `HTTP ${response.status}`);
+        }
+
+        return { success: true };
+    } catch (error) {
+        return { success: false, error: error.message };
+    }
 }
 
 // ===== Exercise Management =====
 function renderExercises() {
     const { exercisesGrid, emptyState } = elements;
+
+    if (!exercisesGrid || !emptyState) return;
 
     // Combine built exercises with any uploaded ones
     const allExercises = [...builtExercises];
@@ -201,6 +351,8 @@ function launchExercise(id) {
 // ===== Modal =====
 function initModal() {
     const { modal, modalClose } = elements;
+
+    if (!modal || !modalClose) return;
 
     modalClose.addEventListener('click', closeModal);
     modal.querySelector('.modal-backdrop').addEventListener('click', closeModal);

@@ -1,0 +1,56 @@
+name: Process Exercise ZIP
+
+on:
+  push:
+    paths:
+      - 'uploads/*.zip'
+  workflow_dispatch:
+    inputs:
+      zip_name:
+        description: 'Name of the ZIP file in uploads folder'
+        required: true
+
+jobs:
+  build-exercise:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Find and process ZIP files
+        run: |
+          # Find all ZIP files in uploads folder
+          for zip_file in uploads/*.zip; do
+            if [ -f "$zip_file" ]; then
+              echo "Processing: $zip_file"
+              node scripts/build-exercise.js "$zip_file"
+              # Remove processed ZIP
+              rm "$zip_file"
+            fi
+          done
+
+      - name: Commit built exercises
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add exercises/
+          git add uploads/
+          
+          if git diff --staged --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "🎮 Auto-build: Added new exercise(s)"
+            git push
+          fi
