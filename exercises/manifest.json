@@ -8,6 +8,15 @@
       "created": "2026-01-21",
       "folder": "plur-ln-mistr-nepravideln-tvary",
       "isBuilt": true
+    },
+    {
+      "id": "built-grammar-master-comparatives-superlatives",
+      "name": "grammar-master:-comparatives-&-superlatives",
+      "description": "Cvičení z AI Studio Builderu",
+      "icon": "🎮",
+      "created": "2026-01-22",
+      "folder": "grammar-master-comparatives-superlatives",
+      "isBuilt": true
     }
   ]
 }
