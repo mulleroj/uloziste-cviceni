@@ -1,18 +1,9 @@
 {
   "exercises": [
     {
-      "id": "built-grammar-master-comparatives-superlatives",
-      "name": "grammar-master:-comparatives-&-superlatives",
-      "description": "Cvičení z AI Studio Builderu",
-      "icon": "🎮",
-      "created": "2026-01-22",
-      "folder": "grammar-master-comparatives-superlatives",
-      "isBuilt": true
-    },
-    {
       "id": "built-plur-ln-mistr-nepravideln-tvary",
-      "name": "plurální-mistr:-nepravidelné-tvary",
-      "description": "Cvičení z AI Studio Builderu",
+      "name": "Unit 1: Plural Nouns",
+      "description": "Procvičení množného čísla u pravidelných a nepravidelných podstatných jmen.",
       "icon": "🎮",
       "created": "2026-01-21",
       "folder": "plur-ln-mistr-nepravideln-tvary",
