@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="cs">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Exercise - Numbers Quiz</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 500px;
+            width: 100%;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.2);
+            text-align: center;
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            color: #666;
+            margin-bottom: 30px;
+        }
+
+        .question {
+            font-size: 2rem;
+            color: #667eea;
+            margin: 30px 0;
+            font-weight: bold;
+        }
+
+        .options {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        button {
+            padding: 15px 25px;
+            font-size: 1.1rem;
+            border: 2px solid #667eea;
+            background: white;
+            color: #667eea;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        button:hover {
+            background: #667eea;
+            color: white;
+        }
+
+        .correct {
+            background: #10b981 !important;
+            border-color: #10b981 !important;
+            color: white !important;
+        }
+
+        .wrong {
+            background: #ef4444 !important;
+            border-color: #ef4444 !important;
+            color: white !important;
+        }
+
+        .score {
+            font-size: 1.5rem;
+            color: #333;
+            margin-top: 20px;
+        }
+
+        .result {
+            margin-top: 30px;
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        .result.win {
+            background: #d1fae5;
+            color: #065f46;
+        }
+
+        .result.lose {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="card">
+        <h1>🔢 Numbers Quiz</h1>
+        <p class="subtitle">Testovací cvičení - Přeložte číslo do angličtiny</p>
+
+        <div id="game">
+            <p class="question" id="question">5</p>
+            <div class="options" id="options"></div>
+            <p class="score">Skóre: <span id="score">0</span>/5</p>
+        </div>
+
+        <div id="result" class="result" style="display: none;"></div>
+    </div>
+
+    <script>
+        const numbers = [
+            { cz: '1', en: 'one' },
+            { cz: '2', en: 'two' },
+            { cz: '3', en: 'three' },
+            { cz: '5', en: 'five' },
+            { cz: '10', en: 'ten' }
+        ];
+
+        let current = 0;
+        let score = 0;
+
+        function shuffle(arr) {
+            return arr.sort(() => Math.random() - 0.5);
+        }
+
+        function showQuestion() {
+            if (current >= numbers.length) {
+                document.getElementById('game').style.display = 'none';
+                const result = document.getElementById('result');
+                result.style.display = 'block';
+                result.className = 'result ' + (score >= 3 ? 'win' : 'lose');
+                result.innerHTML = score >= 3
+                    ? `🎉 Výborně! Skóre: ${score}/5`
+                    : `😢 Zkuste to znovu. Skóre: ${score}/5`;
+                return;
+            }
+
+            const q = numbers[current];
+            document.getElementById('question').textContent = q.cz;
+
+            const options = shuffle([...numbers]).slice(0, 4);
+            if (!options.find(o => o.en === q.en)) {
+                options[0] = q;
+            }
+
+            const optionsDiv = document.getElementById('options');
+            optionsDiv.innerHTML = shuffle(options).map(o =>
+                `<button onclick="answer('${o.en}', '${q.en}', this)">${o.en}</button>`
+            ).join('');
+        }
+
+        function answer(selected, correct, btn) {
+            const buttons = document.querySelectorAll('.options button');
+            buttons.forEach(b => b.disabled = true);
+
+            if (selected === correct) {
+                btn.classList.add('correct');
+                score++;
+            } else {
+                btn.classList.add('wrong');
+                buttons.forEach(b => {
+                    if (b.textContent === correct) b.classList.add('correct');
+                });
+            }
+
+            document.getElementById('score').textContent = score;
+            current++;
+            setTimeout(showQuestion, 1500);
+        }
+
+        showQuestion();
+    </script>
+</body>
+
+</html>

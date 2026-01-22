@@ -594,17 +594,17 @@ function editExercise(id) {
     // Build icon picker HTML
     let iconPickerHTML = '<div class="icon-picker" id="iconPicker">';
     iconPickerHTML += '<div class="icon-picker-toggle" onclick="toggleIconPicker()">';
-    iconPickerHTML += \`<span id="selectedIcon">\${exercise.icon}</span>\`;
+    iconPickerHTML += `<span id="selectedIcon">${exercise.icon}</span>`;
     iconPickerHTML += '<span class="icon-arrow">▼</span>';
     iconPickerHTML += '</div>';
     iconPickerHTML += '<div class="icon-picker-dropdown" id="iconDropdown">';
 
     for (const [category, icons] of Object.entries(ICON_CATEGORIES)) {
-        iconPickerHTML += \`<div class="icon-category">\`;
-        iconPickerHTML += \`<div class="icon-category-title">\${category}</div>\`;
+        iconPickerHTML += `<div class="icon-category">`;
+        iconPickerHTML += `<div class="icon-category-title">${category}</div>`;
         iconPickerHTML += '<div class="icon-grid">';
         for (const icon of icons) {
-            iconPickerHTML += \`<button type="button" class="icon-option" onclick="selectIcon('\${icon}')">\${icon}</button>\`;
+            iconPickerHTML += `<button type="button" class="icon-option" onclick="selectIcon('${icon}')">${icon}</button>`;
         }
         iconPickerHTML += '</div></div>';
     }
@@ -614,26 +614,26 @@ function editExercise(id) {
     const modal = document.createElement('div');
     modal.className = 'edit-modal';
     modal.id = 'editModal';
-    modal.innerHTML = \`
+    modal.innerHTML = `
         <div class="edit-modal-backdrop" onclick="this.parentElement.remove()"></div>
         <div class="edit-modal-content">
             <div class="edit-header">
                 <span class="edit-icon">✏️</span>
                 <h3>Upravit cvičení</h3>
             </div>
-            <form id="editForm" onsubmit="saveExercise('\${exercise.id}'); return false;">
+            <form id="editForm" onsubmit="saveExercise('${exercise.id}'); return false;">
                 <div class="form-group">
                     <label for="editName">Název:</label>
-                    <input type="text" id="editName" value="\${escapeHtml(exercise.name)}" required>
+                    <input type="text" id="editName" value="${escapeHtml(exercise.name)}" required>
                 </div>
                 <div class="form-group">
                     <label for="editDescription">Popis:</label>
-                    <textarea id="editDescription" rows="3">\${escapeHtml(exercise.description)}</textarea>
+                    <textarea id="editDescription" rows="3">${escapeHtml(exercise.description)}</textarea>
                 </div>
                 <div class="form-group">
                     <label>Ikona:</label>
-                    \${iconPickerHTML}
-                    <input type="hidden" id="editIcon" value="\${exercise.icon}">
+                    ${iconPickerHTML}
+                    <input type="hidden" id="editIcon" value="${exercise.icon}">
                 </div>
                 <div class="edit-actions">
                     <button type="button" class="btn btn-secondary" onclick="this.closest('.edit-modal').remove()">
@@ -645,14 +645,14 @@ function editExercise(id) {
                 </div>
             </form>
         </div>
-    \`;
+    `;
     document.body.appendChild(modal);
 
     // Add icon picker styles if not already added
     if (!document.getElementById('icon-picker-styles')) {
         const style = document.createElement('style');
         style.id = 'icon-picker-styles';
-        style.textContent = \`
+        style.textContent = `
             .icon-picker {
                 position: relative;
                 width: 100%;
@@ -733,7 +733,7 @@ function editExercise(id) {
                 border-color: #6366f1;
                 transform: scale(1.1);
             }
-        \`;
+        `;
         document.head.appendChild(style);
     }
 
@@ -801,26 +801,26 @@ async function saveExercise(id) {
             await updateManifest();
 
             renderExercises();
-            showNotification(\`✅ Cvičení "\${newName}" bylo aktualizováno!\`, 'success');
+            showNotification(`✅ Cvičení "${newName}" bylo aktualizováno!`, 'success');
         } else {
             showNotification('Nepodařilo se uložit změny', 'error');
         }
     } catch (error) {
         console.error('Save error:', error);
-        showNotification(\`Chyba při ukládání: \${error.message}\`, 'error');
+        showNotification(`Chyba při ukládání: ${error.message}`, 'error');
     }
 }
 
 async function updateMetaJson(folder, meta) {
     const [owner, repo] = githubSettings.repo.split('/');
-    const path = \`exercises/\${folder}/meta.json\`;
-    const url = \`https://api.github.com/repos/\${owner}/\${repo}/contents/\${path}\`;
+    const path = `exercises/${folder}/meta.json`;
+    const url = `https://api.github.com/repos/${owner}/${repo}/contents/${path}`;
 
     try {
         // First, get the current file to obtain its SHA
         const getResponse = await fetch(url, {
             headers: {
-                'Authorization': \`Bearer \${githubSettings.token}\`,
+                'Authorization': `Bearer ${githubSettings.token}`,
                 'Accept': 'application/vnd.github.v3+json'
             }
         });
@@ -834,7 +834,7 @@ async function updateMetaJson(folder, meta) {
         // Update or create the file
         const content = btoa(unescape(encodeURIComponent(JSON.stringify(meta, null, 2))));
         const body = {
-            message: \`✏️ Aktualizováno: \${meta.name}\`,
+            message: `✏️ Aktualizováno: ${meta.name}`,
             content: content
         };
 
@@ -845,7 +845,7 @@ async function updateMetaJson(folder, meta) {
         const updateResponse = await fetch(url, {
             method: 'PUT',
             headers: {
-                'Authorization': \`Bearer \${githubSettings.token}\`,
+                'Authorization': `Bearer ${githubSettings.token}`,
                 'Content-Type': 'application/json',
                 'Accept': 'application/vnd.github.v3+json'
             },
@@ -863,13 +863,13 @@ async function updateMetaJson(folder, meta) {
 async function updateManifest() {
     const [owner, repo] = githubSettings.repo.split('/');
     const path = 'exercises/manifest.json';
-    const url = \`https://api.github.com/repos/\${owner}/\${repo}/contents/\${path}\`;
+    const url = `https://api.github.com/repos/${owner}/${repo}/contents/${path}`;
 
     try {
         // First, get the current manifest to obtain its SHA
         const getResponse = await fetch(url, {
             headers: {
-                'Authorization': \`Bearer \${githubSettings.token}\`,
+                'Authorization': `Bearer ${githubSettings.token}`,
                 'Accept': 'application/vnd.github.v3+json'
             }
         });
@@ -907,7 +907,7 @@ async function updateManifest() {
         const updateResponse = await fetch(url, {
             method: 'PUT',
             headers: {
-                'Authorization': \`Bearer \${githubSettings.token}\`,
+                'Authorization': `Bearer ${githubSettings.token}`,
                 'Content-Type': 'application/json',
                 'Accept': 'application/vnd.github.v3+json'
             },
