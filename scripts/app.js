@@ -570,6 +570,17 @@ window.editExercise = editExercise;
 window.saveExercise = saveExercise;
 
 // ===== Edit Exercise =====
+// Icon categories for the picker
+const ICON_CATEGORIES = {
+    'Předměty': ['📚', '📖', '📝', '✏️', '🎓', '🏫', '📐', '📏'],
+    'Jazyky': ['🇬🇧', '🇺🇸', '🇩🇪', '🇫🇷', '🇪🇸', '🇮🇹', '💬', '🗣️'],
+    'Čísla & Matematika': ['🔢', '➕', '➖', '✖️', '➗', '📊', '📈', '🧮'],
+    'Gramatika': ['📝', '✍️', '📄', '📃', '🔤', '🔡', 'Aa', '📋'],
+    'Cvičení & Hry': ['🎮', '🎯', '🏆', '⭐', '🎲', '🧩', '🎪', '🎨'],
+    'Témata': ['🏠', '🍎', '🐕', '🌳', '⏰', '🎵', '🌍', '💼'],
+    'Úrovně': ['1️⃣', '2️⃣', '3️⃣', '4️⃣', '5️⃣', '🔰', '⚡', '🏅']
+};
+
 function editExercise(id) {
     const exercise = builtExercises.find(e => e.id === id);
     if (!exercise) return;
@@ -580,29 +591,49 @@ function editExercise(id) {
         return;
     }
 
+    // Build icon picker HTML
+    let iconPickerHTML = '<div class="icon-picker" id="iconPicker">';
+    iconPickerHTML += '<div class="icon-picker-toggle" onclick="toggleIconPicker()">';
+    iconPickerHTML += \`<span id="selectedIcon">\${exercise.icon}</span>\`;
+    iconPickerHTML += '<span class="icon-arrow">▼</span>';
+    iconPickerHTML += '</div>';
+    iconPickerHTML += '<div class="icon-picker-dropdown" id="iconDropdown">';
+
+    for (const [category, icons] of Object.entries(ICON_CATEGORIES)) {
+        iconPickerHTML += \`<div class="icon-category">\`;
+        iconPickerHTML += \`<div class="icon-category-title">\${category}</div>\`;
+        iconPickerHTML += '<div class="icon-grid">';
+        for (const icon of icons) {
+            iconPickerHTML += \`<button type="button" class="icon-option" onclick="selectIcon('\${icon}')">\${icon}</button>\`;
+        }
+        iconPickerHTML += '</div></div>';
+    }
+    iconPickerHTML += '</div></div>';
+
     // Create edit modal
     const modal = document.createElement('div');
     modal.className = 'edit-modal';
     modal.id = 'editModal';
-    modal.innerHTML = `
+    modal.innerHTML = \`
         <div class="edit-modal-backdrop" onclick="this.parentElement.remove()"></div>
         <div class="edit-modal-content">
             <div class="edit-header">
                 <span class="edit-icon">✏️</span>
                 <h3>Upravit cvičení</h3>
             </div>
-            <form id="editForm" onsubmit="saveExercise('${exercise.id}'); return false;">
+            <form id="editForm" onsubmit="saveExercise('\${exercise.id}'); return false;">
                 <div class="form-group">
                     <label for="editName">Název:</label>
-                    <input type="text" id="editName" value="${escapeHtml(exercise.name)}" required>
+                    <input type="text" id="editName" value="\${escapeHtml(exercise.name)}" required>
                 </div>
                 <div class="form-group">
                     <label for="editDescription">Popis:</label>
-                    <textarea id="editDescription" rows="3">${escapeHtml(exercise.description)}</textarea>
+                    <textarea id="editDescription" rows="3">\${escapeHtml(exercise.description)}</textarea>
                 </div>
                 <div class="form-group">
-                    <label for="editIcon">Ikona (emoji):</label>
-                    <input type="text" id="editIcon" value="${exercise.icon}" maxlength="4">
+                    <label>Ikona:</label>
+                    \${iconPickerHTML}
+                    <input type="hidden" id="editIcon" value="\${exercise.icon}">
                 </div>
                 <div class="edit-actions">
                     <button type="button" class="btn btn-secondary" onclick="this.closest('.edit-modal').remove()">
@@ -614,12 +645,122 @@ function editExercise(id) {
                 </div>
             </form>
         </div>
-    `;
+    \`;
     document.body.appendChild(modal);
+
+    // Add icon picker styles if not already added
+    if (!document.getElementById('icon-picker-styles')) {
+        const style = document.createElement('style');
+        style.id = 'icon-picker-styles';
+        style.textContent = \`
+            .icon-picker {
+                position: relative;
+                width: 100%;
+            }
+            .icon-picker-toggle {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                padding: 12px 16px;
+                background: #1e293b;
+                border: 1px solid #334155;
+                border-radius: 8px;
+                cursor: pointer;
+                transition: all 0.2s;
+            }
+            .icon-picker-toggle:hover {
+                border-color: #6366f1;
+            }
+            #selectedIcon {
+                font-size: 1.5rem;
+            }
+            .icon-arrow {
+                color: #94a3b8;
+                font-size: 0.8rem;
+                transition: transform 0.2s;
+            }
+            .icon-picker.open .icon-arrow {
+                transform: rotate(180deg);
+            }
+            .icon-picker-dropdown {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                max-height: 300px;
+                overflow-y: auto;
+                background: #1e293b;
+                border: 1px solid #334155;
+                border-radius: 8px;
+                margin-top: 4px;
+                z-index: 100;
+                box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+            }
+            .icon-picker.open .icon-picker-dropdown {
+                display: block;
+            }
+            .icon-category {
+                padding: 8px;
+                border-bottom: 1px solid #334155;
+            }
+            .icon-category:last-child {
+                border-bottom: none;
+            }
+            .icon-category-title {
+                font-size: 0.75rem;
+                color: #94a3b8;
+                text-transform: uppercase;
+                margin-bottom: 8px;
+                padding: 0 4px;
+            }
+            .icon-grid {
+                display: grid;
+                grid-template-columns: repeat(8, 1fr);
+                gap: 4px;
+            }
+            .icon-option {
+                padding: 8px;
+                font-size: 1.2rem;
+                background: transparent;
+                border: 1px solid transparent;
+                border-radius: 6px;
+                cursor: pointer;
+                transition: all 0.15s;
+            }
+            .icon-option:hover {
+                background: #334155;
+                border-color: #6366f1;
+                transform: scale(1.1);
+            }
+        \`;
+        document.head.appendChild(style);
+    }
 
     // Focus on name input
     document.getElementById('editName').focus();
 }
+
+// Icon picker functions
+function toggleIconPicker() {
+    const picker = document.getElementById('iconPicker');
+    picker.classList.toggle('open');
+}
+
+function selectIcon(icon) {
+    document.getElementById('editIcon').value = icon;
+    document.getElementById('selectedIcon').textContent = icon;
+    document.getElementById('iconPicker').classList.remove('open');
+}
+
+// Close icon picker when clicking outside
+document.addEventListener('click', (e) => {
+    const picker = document.getElementById('iconPicker');
+    if (picker && !picker.contains(e.target)) {
+        picker.classList.remove('open');
+    }
+});
+
 
 async function saveExercise(id) {
     const exercise = builtExercises.find(e => e.id === id);
@@ -660,26 +801,26 @@ async function saveExercise(id) {
             await updateManifest();
 
             renderExercises();
-            showNotification(`✅ Cvičení "${newName}" bylo aktualizováno!`, 'success');
+            showNotification(\`✅ Cvičení "\${newName}" bylo aktualizováno!\`, 'success');
         } else {
             showNotification('Nepodařilo se uložit změny', 'error');
         }
     } catch (error) {
         console.error('Save error:', error);
-        showNotification(`Chyba při ukládání: ${error.message}`, 'error');
+        showNotification(\`Chyba při ukládání: \${error.message}\`, 'error');
     }
 }
 
 async function updateMetaJson(folder, meta) {
     const [owner, repo] = githubSettings.repo.split('/');
-    const path = `exercises/${folder}/meta.json`;
-    const url = `https://api.github.com/repos/${owner}/${repo}/contents/${path}`;
+    const path = \`exercises/\${folder}/meta.json\`;
+    const url = \`https://api.github.com/repos/\${owner}/\${repo}/contents/\${path}\`;
 
     try {
         // First, get the current file to obtain its SHA
         const getResponse = await fetch(url, {
             headers: {
-                'Authorization': `Bearer ${githubSettings.token}`,
+                'Authorization': \`Bearer \${githubSettings.token}\`,
                 'Accept': 'application/vnd.github.v3+json'
             }
         });
@@ -693,7 +834,7 @@ async function updateMetaJson(folder, meta) {
         // Update or create the file
         const content = btoa(unescape(encodeURIComponent(JSON.stringify(meta, null, 2))));
         const body = {
-            message: `✏️ Aktualizováno: ${meta.name}`,
+            message: \`✏️ Aktualizováno: \${meta.name}\`,
             content: content
         };
 
@@ -704,7 +845,7 @@ async function updateMetaJson(folder, meta) {
         const updateResponse = await fetch(url, {
             method: 'PUT',
             headers: {
-                'Authorization': `Bearer ${githubSettings.token}`,
+                'Authorization': \`Bearer \${githubSettings.token}\`,
                 'Content-Type': 'application/json',
                 'Accept': 'application/vnd.github.v3+json'
             },
@@ -722,13 +863,13 @@ async function updateMetaJson(folder, meta) {
 async function updateManifest() {
     const [owner, repo] = githubSettings.repo.split('/');
     const path = 'exercises/manifest.json';
-    const url = `https://api.github.com/repos/${owner}/${repo}/contents/${path}`;
+    const url = \`https://api.github.com/repos/\${owner}/\${repo}/contents/\${path}\`;
 
     try {
         // First, get the current manifest to obtain its SHA
         const getResponse = await fetch(url, {
             headers: {
-                'Authorization': `Bearer ${githubSettings.token}`,
+                'Authorization': \`Bearer \${githubSettings.token}\`,
                 'Accept': 'application/vnd.github.v3+json'
             }
         });
@@ -766,7 +907,7 @@ async function updateManifest() {
         const updateResponse = await fetch(url, {
             method: 'PUT',
             headers: {
-                'Authorization': `Bearer ${githubSettings.token}`,
+                'Authorization': \`Bearer \${githubSettings.token}\`,
                 'Content-Type': 'application/json',
                 'Accept': 'application/vnd.github.v3+json'
             },
