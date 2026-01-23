@@ -1,6 +1,15 @@
 {
   "exercises": [
     {
+      "id": "built-grammar-master-past-vs-present-perfect",
+      "name": "grammar-master:-past-vs.-present-perfect",
+      "description": "Cvičení z AI Studio Builderu",
+      "icon": "🎮",
+      "created": "2026-01-23",
+      "folder": "grammar-master-past-vs-present-perfect",
+      "isBuilt": true
+    },
+    {
       "id": "built-plur-ln-mistr-nepravideln-tvary",
       "name": "Unit 1: Plural Nouns",
       "description": "Procvičení množného čísla u pravidelných a nepravidelných podstatných jmen.",
