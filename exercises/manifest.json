@@ -10,6 +10,15 @@
       "isBuilt": true
     },
     {
+      "id": "built-second-conditional-master",
+      "name": "second-conditional-master",
+      "description": "Cvičení z AI Studio Builderu",
+      "icon": "🎮",
+      "created": "2026-01-27",
+      "folder": "second-conditional-master",
+      "isBuilt": true
+    },
+    {
       "id": "built-plur-ln-mistr-nepravideln-tvary",
       "name": "Unit 1: Plural Nouns",
       "description": "Procvičení množného čísla u pravidelných a nepravidelných podstatných jmen.",
