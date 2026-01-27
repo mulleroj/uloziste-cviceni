@@ -1,9 +1,6 @@
 {
-  "id": "built-second-conditional-master",
-  "name": "second-conditional-master",
-  "description": "Cvičení z AI Studio Builderu",
-  "icon": "🎮",
-  "created": "2026-01-27",
-  "folder": "second-conditional-master",
-  "isBuilt": true
+  "name": "Second Conditional",
+  "description": "Pre intermediate",
+  "icon": "📚",
+  "updated": "2026-01-27"
 }
