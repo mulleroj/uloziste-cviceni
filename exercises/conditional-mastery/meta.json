@@ -1,9 +1,6 @@
 {
-  "id": "built-conditional-mastery",
-  "name": "conditional-mastery",
-  "description": "Cvičení z AI Studio Builderu",
-  "icon": "🎮",
-  "created": "2026-02-16",
-  "folder": "conditional-mastery",
-  "isBuilt": true
+  "name": "First and Second Conditional Mastery",
+  "description": "Cvičení na First a Second Conditional v úrovni pre intermediate",
+  "icon": "🎓",
+  "updated": "2026-02-16"
 }
