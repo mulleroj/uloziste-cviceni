@@ -19,6 +19,24 @@
       "isBuilt": true
     },
     {
+      "id": "built-past-perfect-master",
+      "name": "past-perfect-master",
+      "description": "Cvičení z AI Studio Builderu",
+      "icon": "🎮",
+      "created": "2026-02-16",
+      "folder": "past-perfect-master",
+      "isBuilt": true
+    },
+    {
+      "id": "built-plur-ln-mistr-nepravideln-tvary",
+      "name": "Plural Nouns",
+      "description": "Procvičení množného čísla u pravidelných a nepravidelných podstatných jmen.",
+      "icon": "✏️",
+      "created": "2026-01-21",
+      "folder": "plur-ln-mistr-nepravideln-tvary",
+      "isBuilt": true
+    },
+    {
       "id": "built-grammar-master-past-vs-present-perfect",
       "name": "Present Perfect vs. Past Simple",
       "description": "Cvičení pro Pre-intermediate",
@@ -34,15 +52,6 @@
       "icon": "📚",
       "created": "2026-01-27",
       "folder": "second-conditional-master",
-      "isBuilt": true
-    },
-    {
-      "id": "built-plur-ln-mistr-nepravideln-tvary",
-      "name": "Plural Nouns",
-      "description": "Procvičení množného čísla u pravidelných a nepravidelných podstatných jmen.",
-      "icon": "✏️",
-      "created": "2026-01-21",
-      "folder": "plur-ln-mistr-nepravideln-tvary",
       "isBuilt": true
     }
   ]
