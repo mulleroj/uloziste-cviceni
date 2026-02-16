@@ -1,9 +1,6 @@
 {
-  "id": "built-city-navigator-solutions-elementary",
-  "name": "city-navigator:-solutions-elementary",
-  "description": "Cvičení z AI Studio Builderu",
-  "icon": "🎮",
-  "created": "2026-02-16",
-  "folder": "city-navigator-solutions-elementary",
-  "isBuilt": true
+  "name": "Giving direction",
+  "description": "Popis cesty pro začátečníky",
+  "icon": "🏫",
+  "updated": "2026-02-16"
 }
