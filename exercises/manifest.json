@@ -2,9 +2,9 @@
   "exercises": [
     {
       "id": "built-city-navigator-solutions-elementary",
-      "name": "city-navigator:-solutions-elementary",
-      "description": "Cvičení z AI Studio Builderu",
-      "icon": "🎮",
+      "name": "Giving direction",
+      "description": "Procvičení popisu cesty pro začátečníky",
+      "icon": "🏫",
       "created": "2026-02-16",
       "folder": "city-navigator-solutions-elementary",
       "isBuilt": true
