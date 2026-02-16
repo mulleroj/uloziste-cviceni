@@ -1,10 +1,19 @@
 {
   "exercises": [
     {
+      "id": "built-grammar-master-comparatives-superlatives",
+      "name": "Adjectives - comparatives and superlatives",
+      "description": "Procvičení stupňování přídavných jmen.",
+      "icon": "📏",
+      "created": "2026-01-22",
+      "folder": "grammar-master-comparatives-superlatives",
+      "isBuilt": true
+    },
+    {
       "id": "built-city-navigator-solutions-elementary",
-      "name": "Giving direction",
-      "description": "Procvičení popisu cesty pro začátečníky",
-      "icon": "🏫",
+      "name": "city-navigator:-solutions-elementary",
+      "description": "Cvičení z AI Studio Builderu",
+      "icon": "🎮",
       "created": "2026-02-16",
       "folder": "city-navigator-solutions-elementary",
       "isBuilt": true
@@ -34,15 +43,6 @@
       "icon": "🎮",
       "created": "2026-01-21",
       "folder": "plur-ln-mistr-nepravideln-tvary",
-      "isBuilt": true
-    },
-    {
-      "id": "built-grammar-master-comparatives-superlatives",
-      "name": "Adjectives - comparatives and superlatives",
-      "description": "Procvičení stupňování přídavných jmen.",
-      "icon": "📏",
-      "created": "2026-01-22",
-      "folder": "grammar-master-comparatives-superlatives",
       "isBuilt": true
     }
   ]
