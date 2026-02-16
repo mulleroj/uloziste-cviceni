@@ -1,9 +1,6 @@
 {
-  "id": "built-past-perfect-master",
-  "name": "past-perfect-master",
-  "description": "Cvičení z AI Studio Builderu",
-  "icon": "🎮",
-  "created": "2026-02-16",
-  "folder": "past-perfect-master",
-  "isBuilt": true
+  "name": "Past perfect",
+  "description": "Cvičení na předminulý čas pro pre intermediate",
+  "icon": "🗣️",
+  "updated": "2026-02-16"
 }
