@@ -19,6 +19,15 @@
       "isBuilt": true
     },
     {
+      "id": "built-past-perfect-master",
+      "name": "past-perfect-master",
+      "description": "Cvičení z AI Studio Builderu",
+      "icon": "🎮",
+      "created": "2026-02-16",
+      "folder": "past-perfect-master",
+      "isBuilt": true
+    },
+    {
       "id": "built-grammar-master-past-vs-present-perfect",
       "name": "Present Perfect vs. Past Simple",
       "description": "Cvičení pro Pre-intermediate",
