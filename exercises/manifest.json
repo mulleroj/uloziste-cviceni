@@ -28,6 +28,15 @@
       "isBuilt": true
     },
     {
+      "id": "built-mistr-prislovci",
+      "name": "Mistr příslovcí",
+      "description": "Procvičení příslovcí",
+      "icon": "🎯",
+      "created": "2026-03-06",
+      "folder": "mistr-prislovci",
+      "isBuilt": true
+    },
+    {
       "id": "built-past-perfect-master",
       "name": "Past perfect",
       "description": "Cvičení na předminulý čas pro pre intermediate",
@@ -55,12 +64,12 @@
       "isBuilt": true
     },
     {
-      "id": "built-mistr-prislovci",
-      "name": "Mistr příslovcí",
-      "description": "Procvičení příslovcí",
-      "icon": "🎯",
+      "id": "built-reported-speech-practice",
+      "name": "reported-speech-practice",
+      "description": "Cvičení z AI Studio Builderu",
+      "icon": "🎮",
       "created": "2026-03-06",
-      "folder": "mistr-prislovci",
+      "folder": "reported-speech-practice",
       "isBuilt": true
     },
     {
