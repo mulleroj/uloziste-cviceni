@@ -55,15 +55,6 @@
       "isBuilt": true
     },
     {
-      "id": "built-react-example",
-      "name": "Reported Speech",
-      "description": "Cvičení z AI Studio Builderu",
-      "icon": "🗣️",
-      "created": "2026-03-06",
-      "folder": "react-example",
-      "isBuilt": true
-    },
-    {
       "id": "built-second-conditional-master",
       "name": "Second Conditional",
       "description": "Pre intermediate",
