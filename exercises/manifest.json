@@ -80,6 +80,15 @@
       "created": "2026-01-27",
       "folder": "second-conditional-master",
       "isBuilt": true
+    },
+    {
+      "id": "built-telling-the-time-",
+      "name": "telling-the-time-",
+      "description": "Cvičení z AI Studio Builderu",
+      "icon": "🎮",
+      "created": "2026-03-06",
+      "folder": "telling-the-time-",
+      "isBuilt": true
     }
   ]
 }
