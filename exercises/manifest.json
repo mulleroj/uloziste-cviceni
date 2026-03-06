@@ -56,9 +56,9 @@
     },
     {
       "id": "built-react-example",
-      "name": "Reported Speech",
-      "description": "Cvičení na změnu časů v rámci tvorby nepřímé řeči",
-      "icon": "🗣️",
+      "name": "react-example",
+      "description": "Cvičení z AI Studio Builderu",
+      "icon": "🎮",
       "created": "2026-03-06",
       "folder": "react-example",
       "isBuilt": true

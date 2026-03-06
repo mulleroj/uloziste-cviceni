@@ -1,0 +1,21 @@
+{
+  "name": "Anglický Slovosled: Příslovce Četnosti",
+  "short_name": "Slovosled",
+  "description": "Procvičování anglického slovosledu s příslovci četnosti.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#4f46e5",
+  "icons": [
+    {
+      "src": "https://picsum.photos/seed/learn/192/192",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "https://picsum.photos/seed/learn/512/512",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
