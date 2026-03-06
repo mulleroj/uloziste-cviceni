@@ -56,9 +56,9 @@
     },
     {
       "id": "built-react-example",
-      "name": "react-example",
+      "name": "Reported Speech",
       "description": "Cvičení z AI Studio Builderu",
-      "icon": "🎮",
+      "icon": "🗣️",
       "created": "2026-03-06",
       "folder": "react-example",
       "isBuilt": true
