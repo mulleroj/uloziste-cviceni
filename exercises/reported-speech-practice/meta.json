@@ -1,9 +1,6 @@
 {
-  "id": "built-reported-speech-practice",
-  "name": "reported-speech-practice",
-  "description": "Cvičení z AI Studio Builderu",
-  "icon": "🎮",
-  "created": "2026-03-06",
-  "folder": "reported-speech-practice",
-  "isBuilt": true
+  "name": "Reported Speech",
+  "description": "Cvičení z AI Studio Builderu zaměřené na nepřímou řeč",
+  "icon": "🗣️",
+  "updated": "2026-03-06"
 }
