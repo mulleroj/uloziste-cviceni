@@ -55,12 +55,21 @@
       "isBuilt": true
     },
     {
-      "id": "built-react-example",
-      "name": "react-example",
-      "description": "Cvičení z AI Studio Builderu",
-      "icon": "🎮",
+      "id": "built-mistr-prislovci",
+      "name": "Mistr příslovcí",
+      "description": "Procvičení příslovcí",
+      "icon": "🎯",
       "created": "2026-03-06",
-      "folder": "react-example",
+      "folder": "mistr-prislovci",
+      "isBuilt": true
+    },
+    {
+      "id": "built-reported-speech",
+      "name": "Reported Speech",
+      "description": "Procvičení nepřímé řeči",
+      "icon": "🗣️",
+      "created": "2026-03-06",
+      "folder": "reported-speech",
       "isBuilt": true
     },
     {

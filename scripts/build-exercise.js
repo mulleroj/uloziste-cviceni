@@ -72,7 +72,14 @@ if (!fs.existsSync(packageJsonPath)) {
 
 // Read package.json to get project name
 const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, 'utf8'));
-const projectName = packageJson.name || path.basename(zipPath, '.zip');
+let projectName = packageJson.name || path.basename(zipPath, '.zip');
+
+// If name is generic, use ZIP filename instead
+const genericNames = ['react-example', 'vite-project', 'my-app', 'project', 'app'];
+if (genericNames.includes(projectName.toLowerCase())) {
+    projectName = path.basename(zipPath, '.zip');
+}
+
 const safeName = projectName.toLowerCase().replace(/[^a-z0-9-]/g, '-').replace(/-+/g, '-');
 
 console.log(`📋 Název cvičení: ${projectName}`);
