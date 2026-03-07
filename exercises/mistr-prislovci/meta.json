@@ -1,9 +1,6 @@
 {
-  "id": "built-mistr-prislovci",
   "name": "Mistr příslovcí",
-  "description": "Procvičení příslovcí",
+  "description": "Procvičení příslovcí - Elementary",
   "icon": "🎯",
-  "created": "2026-03-06",
-  "folder": "mistr-prislovci",
-  "isBuilt": true
+  "updated": "2026-03-07"
 }
