@@ -56,9 +56,9 @@
     },
     {
       "id": "built-prepositions-of-time-master",
-      "name": "prepositions-of-time-master",
-      "description": "Cvičení z AI Studio Builderu",
-      "icon": "🎮",
+      "name": "Prepositions of time",
+      "description": "Cvičení z AI Studio Builderu - předložky pojící se k času",
+      "icon": "🎯",
       "created": "2026-03-07",
       "folder": "prepositions-of-time-master",
       "isBuilt": true
