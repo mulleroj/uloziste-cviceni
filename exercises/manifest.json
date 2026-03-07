@@ -55,6 +55,15 @@
       "isBuilt": true
     },
     {
+      "id": "built-prepositions-of-time-master",
+      "name": "prepositions-of-time-master",
+      "description": "Cvičení z AI Studio Builderu",
+      "icon": "🎮",
+      "created": "2026-03-07",
+      "folder": "prepositions-of-time-master",
+      "isBuilt": true
+    },
+    {
       "id": "built-grammar-master-past-vs-present-perfect",
       "name": "Present Perfect vs. Past Simple",
       "description": "Cvičení pro Pre-intermediate",
