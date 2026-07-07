@@ -4,8 +4,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Úložiště cvičení | AI Studio Builder</title>
-    <meta name="description" content="Interaktivní cvičení vytvořená v AI Studio Builderu pro výuku">
+    <title>Interaktivní cvičení z angličtiny – online zdarma</title>
+    <meta name="description" content="Procvič si anglickou gramatiku a slovní zásobu v interaktivních cvičeních. Zdarma, bez registrace, výsledky se nikam neukládají.">
+    <link class="favicon" rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E🎓%3C/text%3E%3C/svg%3E">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://cviceni-anj.netlify.app/">
+    <meta property="og:title" content="Interaktivní cvičení z angličtiny – online zdarma">
+    <meta property="og:description" content="Procvič si anglickou gramatiku a slovní zásobu v interaktivních cvičeních. Zdarma, bez registrace, výsledky se nikam neukládají.">
+    <meta property="og:image" content="https://cviceni-anj.netlify.app/assets/og-image.png">
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="https://cviceni-anj.netlify.app/">
+    <meta name="twitter:title" content="Interaktivní cvičení z angličtiny – online zdarma">
+    <meta name="twitter:description" content="Procvič si anglickou gramatiku a slovní zásobu v interaktivních cvičeních. Zdarma, bez registrace, výsledky se nikam neukládají.">
+    <meta name="twitter:image" content="https://cviceni-anj.netlify.app/assets/og-image.png">
+
     <link rel="stylesheet" href="styles/main.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
@@ -31,11 +47,10 @@
             <div class="container">
                 <div class="hero-content">
                     <h1 class="hero-title">
-                        <span class="gradient-text">Interaktivní cvičení</span>
-                        <br>z AI Studio Builderu
+                        <span class="gradient-text">Procvič si angličtinu</span>
                     </h1>
                     <p class="hero-description">
-                        Galerie vzdělávacích aplikací a cvičení vytvořených pomocí vibe codingu v AI Studio Builderu.
+                        Vyber si cvičení a klikni na Spustit. Výsledky se nikam neukládají.
                     </p>
                 </div>
                 <div class="hero-visual">
@@ -97,7 +112,7 @@
                 <div class="empty-state" id="emptyState">
                     <div class="empty-icon">🎯</div>
                     <h3>Zatím žádná cvičení</h3>
-                    <p>Nahrajte ZIP soubor výše nebo přidejte cvičení do složky <code>exercises/</code></p>
+                    <p id="emptyStateDesc">Zatím nejsou k dispozici žádná cvičení.</p>
                 </div>
             </div>
         </section>
@@ -144,7 +159,7 @@
         <!-- Footer -->
         <footer class="footer">
             <div class="container">
-                <p>Vytvořeno pro výuku s AI Studio Builderem</p>
+                <p id="footerText">Vytvořeno pro výuku</p>
             </div>
         </footer>
     </div>

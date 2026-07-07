@@ -3,20 +3,22 @@
     {
       "id": "built-grammar-master-comparatives-superlatives",
       "name": "Adjectives - comparatives and superlatives",
-      "description": "Procvičení stupňování přídavných jmen - Elementary level.",
+      "description": "Procvičení stupňování přídavných jmen.",
       "icon": "📏",
       "created": "2026-01-22",
       "folder": "grammar-master-comparatives-superlatives",
-      "isBuilt": true
+      "isBuilt": true,
+      "level": "Elementary"
     },
     {
       "id": "built-conditional-mastery",
       "name": "First and Second Conditional Mastery",
-      "description": "Cvičení na First a Second Conditional v úrovni pre intermediate",
+      "description": "Cvičení na First a Second Conditional.",
       "icon": "📚",
       "created": "2026-02-16",
       "folder": "conditional-mastery",
-      "isBuilt": true
+      "isBuilt": true,
+      "level": "Pre-intermediate"
     },
     {
       "id": "built-city-navigator-solutions-elementary",
@@ -25,16 +27,18 @@
       "icon": "🏫",
       "created": "2026-02-16",
       "folder": "city-navigator-solutions-elementary",
-      "isBuilt": true
+      "isBuilt": true,
+      "level": "Elementary"
     },
     {
       "id": "built-past-perfect-master",
       "name": "Past perfect",
-      "description": "Cvičení na předminulý čas pro pre intermediate",
+      "description": "Cvičení na předminulý čas.",
       "icon": "🗣️",
       "created": "2026-02-16",
       "folder": "past-perfect-master",
-      "isBuilt": true
+      "isBuilt": true,
+      "level": "Pre-intermediate"
     },
     {
       "id": "built-plur-ln-mistr-nepravideln-tvary",
@@ -43,16 +47,18 @@
       "icon": "✏️",
       "created": "2026-01-21",
       "folder": "plur-ln-mistr-nepravideln-tvary",
-      "isBuilt": true
+      "isBuilt": true,
+      "level": "Elementary"
     },
     {
       "id": "built-grammar-master-past-vs-present-perfect",
       "name": "Present Perfect vs. Past Simple",
-      "description": "Cvičení pro Pre-intermediate",
+      "description": "Procvičení předpřítomného a minulého času.",
       "icon": "📝",
       "created": "2026-01-23",
       "folder": "grammar-master-past-vs-present-perfect",
-      "isBuilt": true
+      "isBuilt": true,
+      "level": "Pre-intermediate"
     },
     {
       "id": "built-mistr-prislovci",
@@ -61,7 +67,8 @@
       "icon": "🎯",
       "created": "2026-03-06",
       "folder": "mistr-prislovci",
-      "isBuilt": true
+      "isBuilt": true,
+      "level": "Elementary"
     },
     {
       "id": "built-reported-speech",
@@ -70,16 +77,18 @@
       "icon": "🗣️",
       "created": "2026-03-06",
       "folder": "reported-speech",
-      "isBuilt": true
+      "isBuilt": true,
+      "level": "Intermediate"
     },
     {
       "id": "built-second-conditional-master",
       "name": "Second Conditional",
-      "description": "Pre intermediate",
+      "description": "Procvičení druhého kondicionálu.",
       "icon": "📚",
       "created": "2026-01-27",
       "folder": "second-conditional-master",
-      "isBuilt": true
+      "isBuilt": true,
+      "level": "Pre-intermediate"
     }
   ]
 }

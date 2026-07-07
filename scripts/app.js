@@ -52,6 +52,17 @@ document.addEventListener('DOMContentLoaded', async () => {
         if (uploadSection) uploadSection.hidden = false;
         if (howToSection) howToSection.hidden = false;
         if (adminNavLink) adminNavLink.hidden = false;
+
+        // Dynamic updates for admin mode
+        document.title = "Úložiště cvičení | AI Studio Builder";
+        const footerText = document.getElementById('footerText');
+        if (footerText) {
+            footerText.innerHTML = 'Vytvořeno pro výuku s AI Studio Builderem (vibe coding)';
+        }
+        const emptyStateDesc = document.getElementById('emptyStateDesc');
+        if (emptyStateDesc) {
+            emptyStateDesc.innerHTML = 'Nahrajte ZIP soubor výše nebo přidejte cvičení do složky <code>exercises/</code>';
+        }
     }
 
     loadGitHubSettings();
@@ -134,8 +145,9 @@ async function scanExercisesFolder() {
                         exercises.push({
                             id: `built-${folderName}`,
                             name: meta.name || folderName,
-                            description: meta.description || 'Cvičení z AI Studio Builderu',
+                            description: meta.description || 'Výukové cvičení',
                             icon: meta.icon || '🎮',
+                            level: meta.level,
                             folder: folderName,
                             isBuilt: true
                         });
@@ -146,7 +158,7 @@ async function scanExercisesFolder() {
                             exercises.push({
                                 id: `built-${folderName}`,
                                 name: folderName.replace(/-/g, ' '),
-                                description: 'Cvičení z AI Studio Builderu',
+                                description: 'Výukové cvičení',
                                 icon: '🎮',
                                 folder: folderName,
                                 isBuilt: true
@@ -336,9 +348,12 @@ function renderExercises() {
     emptyState.hidden = true;
     exercisesGrid.innerHTML = allExercises.map(exercise => `
         <article class="exercise-card" data-id="${exercise.id}">
-            <div class="exercise-preview">${exercise.icon}</div>
+            <div class="exercise-preview"><span aria-hidden="true">${exercise.icon}</span></div>
             <div class="exercise-info">
-                <h3 class="exercise-title">${escapeHtml(exercise.name)}</h3>
+                <div class="exercise-header">
+                    <h3 class="exercise-title">${escapeHtml(exercise.name)}</h3>
+                    ${exercise.level ? `<span class="badge badge-${exercise.level.toLowerCase()}">${escapeHtml(exercise.level)}</span>` : ''}
+                </div>
                 <p class="exercise-description">${escapeHtml(exercise.description)}</p>
                 <div class="exercise-actions">
                     <button class="btn btn-primary" onclick="launchExercise('${exercise.id}')">
@@ -362,8 +377,17 @@ function launchExercise(id) {
     if (!exercise) return;
 
     if (exercise.isBuilt) {
-        // Open built exercise in new tab - use trailing slash for relative path compatibility
-        window.open(`exercises/${exercise.folder}/`, '_blank');
+        const url = `exercises/${exercise.folder}/`;
+        try {
+            const newTab = window.open(url, '_blank', 'noopener,noreferrer');
+            if (!newTab || newTab.closed || typeof newTab.closed === 'undefined') {
+                // Fallback: standard navigation in the current window to ensure it works
+                window.location.href = url;
+            }
+        } catch (e) {
+            console.error('Failed to open exercise in new tab:', e);
+            window.location.href = url;
+        }
     }
 }
 
@@ -784,8 +808,9 @@ async function saveExercise(id) {
     try {
         const meta = {
             name: newName,
-            description: newDescription || 'Cvičení z AI Studio Builderu',
+            description: newDescription || 'Výukové cvičení',
             icon: newIcon,
+            level: exercise.level,
             updated: new Date().toISOString().split('T')[0]
         };
 
@@ -794,7 +819,7 @@ async function saveExercise(id) {
         if (success) {
             // Update local array
             exercise.name = newName;
-            exercise.description = newDescription || 'Cvičení z AI Studio Builderu';
+            exercise.description = newDescription || 'Výukové cvičení';
             exercise.icon = newIcon;
 
             // Update manifest.json on GitHub
@@ -887,6 +912,7 @@ async function updateManifest() {
                 name: e.name,
                 description: e.description,
                 icon: e.icon,
+                level: e.level,
                 created: e.created || new Date().toISOString().split('T')[0],
                 folder: e.folder,
                 isBuilt: true
