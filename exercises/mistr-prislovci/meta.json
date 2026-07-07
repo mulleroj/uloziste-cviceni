@@ -1,6 +1,7 @@
 {
   "name": "Mistr příslovcí",
-  "description": "Procvičení příslovcí - Elementary",
+  "description": "Procvičení příslovcí",
   "icon": "🎯",
-  "updated": "2026-03-07"
+  "updated": "2026-03-07",
+  "level": "Elementary"
 }
