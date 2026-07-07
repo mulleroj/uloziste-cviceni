@@ -113,7 +113,11 @@ async function loadBuiltExercises() {
         const response = await fetch(CONFIG.exercisesManifest);
         if (response.ok) {
             const manifest = await response.json();
-            builtExercises = manifest.exercises || [];
+            builtExercises = (manifest.exercises || []).map(e => ({
+                ...e,
+                id: e.id || `built-${e.folder}`,
+                isBuilt: true
+            }));
         }
     } catch (e) {
         // No manifest, try to scan for exercises
