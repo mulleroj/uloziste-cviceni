@@ -360,9 +360,9 @@ function renderExercises() {
                 </div>
                 <p class="exercise-description">${escapeHtml(exercise.description)}</p>
                 <div class="exercise-actions">
-                    <button class="btn btn-primary" onclick="launchExercise('${exercise.id}')">
+                    <a href="/exercises/${exercise.folder}/" target="_blank" rel="noopener noreferrer" class="btn btn-primary">
                         ▶️ Spustit
-                    </button>
+                    </a>
                     ${isAdmin ? `
                     <button class="btn btn-secondary btn-sm" onclick="editExercise('${exercise.id}')">
                         ✏️ Upravit
@@ -381,16 +381,15 @@ function launchExercise(id) {
     if (!exercise) return;
 
     if (exercise.isBuilt) {
-        const url = `exercises/${exercise.folder}/`;
+        const url = `/exercises/${exercise.folder}/`;
         try {
-            const newTab = window.open(url, '_blank', 'noopener,noreferrer');
-            if (!newTab || newTab.closed || typeof newTab.closed === 'undefined') {
-                // Fallback: standard navigation in the current window to ensure it works
-                window.location.href = url;
+            const opened = window.open(url, '_blank');
+            if (!opened) {
+                window.location.assign(url);
             }
         } catch (e) {
             console.error('Failed to open exercise in new tab:', e);
-            window.location.href = url;
+            window.location.assign(url);
         }
     }
 }
