@@ -1,92 +1,116 @@
 {
   "exercises": [
     {
+      "id": "built-grammar-master-comparatives-superlatives",
       "name": "Adjectives - comparatives and superlatives",
       "description": "Procvičení stupňování přídavných jmen v angličtině.",
       "icon": "📏",
+      "level": "Elementary",
+      "created": "2026-07-08",
       "folder": "grammar-master-comparatives-superlatives",
-      "updated": "2026-07-07",
-      "level": "Elementary"
+      "isBuilt": true,
+      "useCase": "Opakování",
+      "estimatedTime": "15 min"
     },
     {
+      "id": "built-conditional-mastery",
       "name": "First and Second Conditional Mastery",
       "description": "Cvičení na First a Second Conditional.",
       "icon": "📚",
+      "level": "Pre-intermediate",
+      "created": "2026-07-08",
       "folder": "conditional-mastery",
-      "updated": "2026-02-16",
-      "level": "Pre-intermediate"
+      "isBuilt": true
     },
     {
+      "id": "built-city-navigator-solutions-elementary",
       "name": "Giving direction",
       "description": "Popis cesty pro začátečníky",
       "icon": "🏫",
+      "level": "Elementary",
+      "created": "2026-07-08",
       "folder": "city-navigator-solutions-elementary",
-      "updated": "2026-02-16",
-      "level": "Elementary"
+      "isBuilt": true
     },
     {
+      "id": "built-mistr-prislovci",
       "name": "Mistr příslovcí",
       "description": "Procvičení příslovcí",
       "icon": "🎯",
+      "level": "Elementary",
+      "created": "2026-07-08",
       "folder": "mistr-prislovci",
-      "updated": "2026-03-07",
-      "level": "Elementary"
+      "isBuilt": true
     },
     {
+      "id": "built-past-perfect-master",
       "name": "Past perfect",
       "description": "Cvičení na předminulý čas.",
       "icon": "🗣️",
+      "level": "Pre-intermediate",
+      "created": "2026-07-08",
       "folder": "past-perfect-master",
-      "updated": "2026-02-16",
-      "level": "Pre-intermediate"
+      "isBuilt": true
     },
     {
+      "id": "built-plur-ln-mistr-nepravideln-tvary",
       "name": "Plural Nouns",
       "description": "Procvičení množného čísla u pravidelných a nepravidelných podstatných jmen",
       "icon": "✏️",
+      "level": "Elementary",
+      "created": "2026-07-08",
       "folder": "plur-ln-mistr-nepravideln-tvary",
-      "updated": "2026-03-07",
-      "level": "Elementary"
+      "isBuilt": true
     },
     {
+      "id": "built-prepositions-of-time-master",
       "name": "Prepositions of time",
       "description": "Cvičení z AI Studio Builderu - předložky pojící se k času",
       "icon": "🎯",
+      "level": "Elementary",
+      "created": "2026-07-08",
       "folder": "prepositions-of-time-master",
-      "updated": "2026-03-07",
-      "level": "Elementary"
+      "isBuilt": true
     },
     {
+      "id": "built-grammar-master-past-vs-present-perfect",
       "name": "Present Perfect vs. Past Simple",
       "description": "Procvičení předpřítomného a minulého času.",
       "icon": "📝",
+      "level": "Pre-intermediate",
+      "created": "2026-07-08",
       "folder": "grammar-master-past-vs-present-perfect",
-      "updated": "2026-02-16",
-      "level": "Pre-intermediate"
+      "isBuilt": true
     },
     {
+      "id": "built-reported-speech-practice",
       "name": "Reported Speech",
       "description": "Cvičení z AI Studio Builderu zaměřené na nepřímou řeč",
       "icon": "🗣️",
+      "level": "Intermediate",
+      "created": "2026-07-08",
       "folder": "reported-speech-practice",
-      "updated": "2026-03-07",
-      "level": "Intermediate"
+      "isBuilt": true
     },
     {
+      "id": "built-second-conditional-master",
       "name": "Second Conditional",
       "description": "Procvičení druhého kondicionálu.",
       "icon": "📚",
+      "level": "Pre-intermediate",
+      "created": "2026-07-08",
       "folder": "second-conditional-master",
-      "updated": "2026-01-27",
-      "level": "Pre-intermediate"
+      "isBuilt": true
     },
     {
+      "id": "built-telling-the-time-",
       "name": "Telling the time",
       "description": "Cvičení na stanovení času",
       "icon": "✍️",
+      "level": "Elementary",
+      "created": "2026-07-08",
       "folder": "telling-the-time-",
-      "updated": "2026-03-07",
-      "level": "Elementary"
+      "isBuilt": true
     }
   ]
 }
