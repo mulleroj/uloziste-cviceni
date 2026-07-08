@@ -499,6 +499,28 @@ body {
     margin-bottom: 16px;
 }
 
+.exercise-meta-info {
+    font-size: 0.82rem;
+    color: var(--primary-light);
+    font-weight: 500;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.exercise-teacher-note {
+    font-size: 0.82rem;
+    color: var(--text-secondary);
+    background: rgba(99, 102, 241, 0.08);
+    border-left: 3px solid var(--primary);
+    padding: 8px 12px;
+    border-radius: var(--radius-sm);
+    margin-bottom: 16px;
+    font-style: italic;
+    line-height: 1.4;
+}
+
 .exercise-actions {
     display: flex;
     flex-wrap: wrap;
@@ -632,7 +654,9 @@ body {
     border-radius: var(--radius);
     padding: 32px;
     width: 100%;
-    max-width: 450px;
+    max-width: 500px;
+    max-height: 90vh;
+    overflow-y: auto;
     box-shadow: var(--shadow-lg);
 }
 
@@ -664,7 +688,8 @@ body {
 }
 
 .edit-modal-content .form-group input,
-.edit-modal-content .form-group textarea {
+.edit-modal-content .form-group textarea,
+.edit-modal-content .form-group select {
     width: 100%;
     padding: 12px 16px;
     background: var(--bg-dark);
@@ -677,7 +702,8 @@ body {
 }
 
 .edit-modal-content .form-group input:focus,
-.edit-modal-content .form-group textarea:focus {
+.edit-modal-content .form-group textarea:focus,
+.edit-modal-content .form-group select:focus {
     border-color: var(--primary);
 }
 

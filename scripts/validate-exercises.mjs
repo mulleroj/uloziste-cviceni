@@ -88,6 +88,16 @@ for (const folder of exerciseFolders) {
         addError(`exercises/${folder}/meta.json`, `Invalid level value '${meta.level}'. Must be one of: ${validLevels.join(', ')}`);
     }
 
+    if (meta.useCase !== undefined && typeof meta.useCase !== 'string') {
+        addError(`exercises/${folder}/meta.json`, `Optional field 'useCase' must be a string if provided`);
+    }
+    if (meta.estimatedTime !== undefined && typeof meta.estimatedTime !== 'string') {
+        addError(`exercises/${folder}/meta.json`, `Optional field 'estimatedTime' must be a string if provided`);
+    }
+    if (meta.teacherNote !== undefined && typeof meta.teacherNote !== 'string') {
+        addError(`exercises/${folder}/meta.json`, `Optional field 'teacherNote' must be a string if provided`);
+    }
+
     // Check if description redundantly duplicates the level
     if (meta.description && levelDuplicatesRegex.test(meta.description)) {
         addError(`exercises/${folder}/meta.json`, `Description unnecessarily duplicates level string: "${meta.description}"`);
@@ -161,6 +171,15 @@ if (!fs.existsSync(manifestPath)) {
             }
             if (item.level !== meta.level) {
                 addError(itemPrefix, `Level '${item.level}' does not match meta.json level '${meta.level}'`);
+            }
+            if ((item.useCase || '') !== (meta.useCase || '')) {
+                addError(itemPrefix, `useCase '${item.useCase || ''}' does not match meta.json useCase '${meta.useCase || ''}'`);
+            }
+            if ((item.estimatedTime || '') !== (meta.estimatedTime || '')) {
+                addError(itemPrefix, `estimatedTime '${item.estimatedTime || ''}' does not match meta.json estimatedTime '${meta.estimatedTime || ''}'`);
+            }
+            if ((item.teacherNote || '') !== (meta.teacherNote || '')) {
+                addError(itemPrefix, `teacherNote '${item.teacherNote || ''}' does not match meta.json teacherNote '${meta.teacherNote || ''}'`);
             }
         }
 
