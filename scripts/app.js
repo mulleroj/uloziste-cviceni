@@ -172,6 +172,9 @@ async function scanExercisesFolder() {
                             description: meta.description || 'Výukové cvičení',
                             icon: meta.icon || '🎮',
                             level: meta.level,
+                            useCase: meta.useCase || '',
+                            estimatedTime: meta.estimatedTime || '',
+                            teacherNote: meta.teacherNote || '',
                             folder: folderName,
                             isBuilt: true
                         });
@@ -431,14 +434,16 @@ function renderExercises() {
 
 const removeDiacritics = (str) => (str || '').toString().normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
 
-        // Search query check (case-insensitive and diacritics-insensitive in title, description, level)
+        // Search query check (case-insensitive and diacritics-insensitive in title, description, level, useCase, teacherNote)
         if (currentSearchQuery) {
             const queryClean = removeDiacritics(currentSearchQuery);
             const nameMatch = removeDiacritics(exercise.name).includes(queryClean);
             const titleMatch = removeDiacritics(exercise.title).includes(queryClean);
             const descMatch = removeDiacritics(exercise.description).includes(queryClean);
             const levelMatch = removeDiacritics(exercise.level).includes(queryClean);
-            if (!nameMatch && !titleMatch && !descMatch && !levelMatch) {
+            const useCaseMatch = removeDiacritics(exercise.useCase).includes(queryClean);
+            const noteMatch = removeDiacritics(exercise.teacherNote).includes(queryClean);
+            if (!nameMatch && !titleMatch && !descMatch && !levelMatch && !useCaseMatch && !noteMatch) {
                 return false;
             }
         }
@@ -453,7 +458,21 @@ const removeDiacritics = (str) => (str || '').toString().normalize("NFD").replac
     }
 
     if (noResultsState) noResultsState.hidden = true;
-    exercisesGrid.innerHTML = filteredExercises.map(exercise => `
+    exercisesGrid.innerHTML = filteredExercises.map(exercise => {
+        let metaRowHtml = '';
+        if (exercise.useCase || exercise.estimatedTime) {
+            const parts = [];
+            if (exercise.useCase) parts.push(escapeHtml(exercise.useCase));
+            if (exercise.estimatedTime) parts.push(escapeHtml(exercise.estimatedTime));
+            metaRowHtml = `<div class="exercise-meta-info">${parts.join(' · ')}</div>`;
+        }
+
+        let teacherNoteHtml = '';
+        if (exercise.teacherNote) {
+            teacherNoteHtml = `<div class="exercise-teacher-note">💡 ${escapeHtml(exercise.teacherNote)}</div>`;
+        }
+
+        return `
         <article class="exercise-card" data-id="${exercise.id}">
             <div class="exercise-preview"><span aria-hidden="true">${exercise.icon}</span></div>
             <div class="exercise-info">
@@ -461,7 +480,9 @@ const removeDiacritics = (str) => (str || '').toString().normalize("NFD").replac
                     <h3 class="exercise-title">${escapeHtml(exercise.name)}</h3>
                     ${exercise.level ? `<span class="badge badge-${exercise.level.toLowerCase()}">${escapeHtml(exercise.level)}</span>` : ''}
                 </div>
+                ${metaRowHtml}
                 <p class="exercise-description">${escapeHtml(exercise.description)}</p>
+                ${teacherNoteHtml}
                 <div class="exercise-actions">
                     <a href="/exercises/${exercise.folder}/" target="_blank" rel="noopener noreferrer" class="btn btn-primary">
                         ▶️ Spustit
@@ -479,7 +500,8 @@ const removeDiacritics = (str) => (str || '').toString().normalize("NFD").replac
                 </div>
             </div>
         </article>
-    `).join('');
+    `;
+    }).join('');
 }
 
 async function copyExerciseLink(id) {
@@ -778,6 +800,46 @@ function editExercise(id) {
     }
     iconPickerHTML += '</div></div>';
 
+    const levelOptions = ['Elementary', 'Pre-intermediate', 'Intermediate'];
+    let levelSelectHTML = `<select id="editLevel" class="form-control" required>
+        <option value="" disabled ${!exercise.level ? 'selected' : ''}>-- Vyberte úroveň --</option>`;
+    for (const opt of levelOptions) {
+        const isSelected = exercise.level === opt ? 'selected' : '';
+        levelSelectHTML += `<option value="${opt}" ${isSelected}>${opt}</option>`;
+    }
+    levelSelectHTML += `</select>`;
+
+    const useCaseOptions = [
+        'Krátké procvičení',
+        'Opakování',
+        'Samostatná práce',
+        'Domácí úkol',
+        'Práce v hodině',
+        'Příprava na test'
+    ];
+    let useCaseSelectHTML = `<select id="editUseCase" class="form-control">
+        <option value="" ${!exercise.useCase ? 'selected' : ''}>-- Nezvoleno --</option>`;
+    for (const opt of useCaseOptions) {
+        const isSelected = exercise.useCase === opt ? 'selected' : '';
+        useCaseSelectHTML += `<option value="${opt}" ${isSelected}>${opt}</option>`;
+    }
+    if (exercise.useCase && !useCaseOptions.includes(exercise.useCase)) {
+        useCaseSelectHTML += `<option value="${escapeHtml(exercise.useCase)}" selected>${escapeHtml(exercise.useCase)}</option>`;
+    }
+    useCaseSelectHTML += `</select>`;
+
+    const timeOptions = ['5 min', '10 min', '15 min', '20 min', '30 min'];
+    let timeSelectHTML = `<select id="editEstimatedTime" class="form-control">
+        <option value="" ${!exercise.estimatedTime ? 'selected' : ''}>-- Nezvoleno --</option>`;
+    for (const opt of timeOptions) {
+        const isSelected = exercise.estimatedTime === opt ? 'selected' : '';
+        timeSelectHTML += `<option value="${opt}" ${isSelected}>${opt}</option>`;
+    }
+    if (exercise.estimatedTime && !timeOptions.includes(exercise.estimatedTime)) {
+        timeSelectHTML += `<option value="${escapeHtml(exercise.estimatedTime)}" selected>${escapeHtml(exercise.estimatedTime)}</option>`;
+    }
+    timeSelectHTML += `</select>`;
+
     // Create edit modal
     const modal = document.createElement('div');
     modal.className = 'edit-modal';
@@ -795,8 +857,24 @@ function editExercise(id) {
                     <input type="text" id="editName" value="${escapeHtml(exercise.name)}" required>
                 </div>
                 <div class="form-group">
+                    <label for="editLevel">Jazyková úroveň:</label>
+                    ${levelSelectHTML}
+                </div>
+                <div class="form-group">
                     <label for="editDescription">Popis:</label>
                     <textarea id="editDescription" rows="3">${escapeHtml(exercise.description)}</textarea>
+                </div>
+                <div class="form-group">
+                    <label for="editUseCase">Vhodné pro:</label>
+                    ${useCaseSelectHTML}
+                </div>
+                <div class="form-group">
+                    <label for="editEstimatedTime">Časová náročnost:</label>
+                    ${timeSelectHTML}
+                </div>
+                <div class="form-group">
+                    <label for="editTeacherNote">Poznámka pro učitele:</label>
+                    <textarea id="editTeacherNote" rows="2" placeholder="např. Vhodné na začátek hodiny...">${escapeHtml(exercise.teacherNote || '')}</textarea>
                 </div>
                 <div class="form-group">
                     <label>Ikona:</label>
@@ -935,7 +1013,11 @@ async function saveExercise(id) {
     if (!exercise) return;
 
     const newName = document.getElementById('editName').value.trim();
+    const newLevel = document.getElementById('editLevel') ? document.getElementById('editLevel').value : exercise.level;
     const newDescription = document.getElementById('editDescription').value.trim();
+    const newUseCase = document.getElementById('editUseCase') ? document.getElementById('editUseCase').value : (exercise.useCase || '');
+    const newEstimatedTime = document.getElementById('editEstimatedTime') ? document.getElementById('editEstimatedTime').value : (exercise.estimatedTime || '');
+    const newTeacherNote = document.getElementById('editTeacherNote') ? document.getElementById('editTeacherNote').value.trim() : (exercise.teacherNote || '');
     const newIcon = document.getElementById('editIcon').value.trim() || '🎮';
 
     if (!newName) {
@@ -954,9 +1036,12 @@ async function saveExercise(id) {
             name: newName,
             description: newDescription || 'Výukové cvičení',
             icon: newIcon,
-            level: exercise.level,
+            level: newLevel || exercise.level,
             updated: new Date().toISOString().split('T')[0]
         };
+        if (newUseCase) meta.useCase = newUseCase;
+        if (newEstimatedTime) meta.estimatedTime = newEstimatedTime;
+        if (newTeacherNote) meta.teacherNote = newTeacherNote;
 
         const success = await updateMetaJson(exercise.folder, meta);
 
@@ -965,6 +1050,10 @@ async function saveExercise(id) {
             exercise.name = newName;
             exercise.description = newDescription || 'Výukové cvičení';
             exercise.icon = newIcon;
+            if (newLevel) exercise.level = newLevel;
+            exercise.useCase = newUseCase;
+            exercise.estimatedTime = newEstimatedTime;
+            exercise.teacherNote = newTeacherNote;
 
             // Update manifest.json on GitHub
             await updateManifest();
@@ -1051,16 +1140,22 @@ async function updateManifest() {
 
         // Build new manifest from current builtExercises array
         const manifest = {
-            exercises: builtExercises.map(e => ({
-                id: e.id,
-                name: e.name,
-                description: e.description,
-                icon: e.icon,
-                level: e.level,
-                created: e.created || new Date().toISOString().split('T')[0],
-                folder: e.folder,
-                isBuilt: true
-            }))
+            exercises: builtExercises.map(e => {
+                const item = {
+                    id: e.id,
+                    name: e.name,
+                    description: e.description,
+                    icon: e.icon,
+                    level: e.level,
+                    created: e.created || new Date().toISOString().split('T')[0],
+                    folder: e.folder,
+                    isBuilt: true
+                };
+                if (e.useCase) item.useCase = e.useCase;
+                if (e.estimatedTime) item.estimatedTime = e.estimatedTime;
+                if (e.teacherNote) item.teacherNote = e.teacherNote;
+                return item;
+            })
         };
 
         // Update manifest.json
