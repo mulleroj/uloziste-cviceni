@@ -38,7 +38,8 @@ const elements = {
     // GitHub settings elements
     githubToken: document.getElementById('githubToken'),
     githubRepo: document.getElementById('githubRepo'),
-    saveSettings: document.getElementById('saveSettings')
+    saveSettings: document.getElementById('saveSettings'),
+    clearTokenBtn: document.getElementById('clearTokenBtn')
 };
 
 // ===== Initialize =====
@@ -100,9 +101,21 @@ function saveGitHubSettings() {
     showNotification('Nastavení uloženo!', 'success');
 }
 
+function clearGitHubToken() {
+    githubSettings.token = '';
+    if (elements.githubToken) {
+        elements.githubToken.value = '';
+    }
+    localStorage.setItem(CONFIG.githubSettingsKey, JSON.stringify(githubSettings));
+    showNotification('GitHub token byl odstraněn z tohoto prohlížeče.', 'success');
+}
+
 function initSettingsForm() {
     if (elements.saveSettings) {
         elements.saveSettings.addEventListener('click', saveGitHubSettings);
+    }
+    if (elements.clearTokenBtn) {
+        elements.clearTokenBtn.addEventListener('click', clearGitHubToken);
     }
 }
 
