@@ -312,6 +312,13 @@ body {
     align-items: flex-end;
 }
 
+.settings-note {
+    margin-top: 14px;
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    line-height: 1.4;
+}
+
 .form-group {
     flex: 1;
     min-width: 200px;
