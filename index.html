@@ -110,6 +110,21 @@
         <section class="exercises-section" id="exercises">
             <div class="container">
                 <h2 class="section-title">📂 Vaše cvičení</h2>
+
+                <!-- Exercises Filter & Search Panel -->
+                <div class="filters-panel" id="filtersPanel">
+                    <div class="search-box">
+                        <label for="searchInput" class="sr-only">Hledat cvičení:</label>
+                        <input type="text" id="searchInput" placeholder="Hledat cvičení…" autocomplete="off">
+                    </div>
+                    <div class="filter-chips" role="group" aria-label="Filtr podle úrovně">
+                        <button type="button" class="chip active" data-level="all" aria-pressed="true">Všechno</button>
+                        <button type="button" class="chip" data-level="Elementary" aria-pressed="false">Elementary</button>
+                        <button type="button" class="chip" data-level="Pre-intermediate" aria-pressed="false">Pre-intermediate</button>
+                        <button type="button" class="chip" data-level="Intermediate" aria-pressed="false">Intermediate</button>
+                    </div>
+                </div>
+
                 <div class="exercises-grid" id="exercisesGrid">
                     <!-- Dynamicky generované karty -->
                 </div>
@@ -117,6 +132,12 @@
                     <div class="empty-icon">🎯</div>
                     <h3>Zatím žádná cvičení</h3>
                     <p id="emptyStateDesc">Zatím nejsou k dispozici žádná cvičení.</p>
+                </div>
+                <div class="empty-state" id="noResultsState" hidden>
+                    <div class="empty-icon">🔍</div>
+                    <h3>Žádná cvičení neodpovídají zadanému hledání.</h3>
+                    <p>Zkuste změnit hledaný výraz nebo zvolit jinou úroveň.</p>
+                    <button type="button" class="btn btn-secondary btn-sm" id="clearFiltersBtn" style="margin-top: 14px;">Zrušit filtry</button>
                 </div>
             </div>
         </section>

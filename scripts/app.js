@@ -32,6 +32,9 @@ const elements = {
     progressText: document.getElementById('progressText'),
     exercisesGrid: document.getElementById('exercisesGrid'),
     emptyState: document.getElementById('emptyState'),
+    noResultsState: document.getElementById('noResultsState'),
+    searchInput: document.getElementById('searchInput'),
+    clearFiltersBtn: document.getElementById('clearFiltersBtn'),
     modal: document.getElementById('exerciseModal'),
     modalClose: document.getElementById('modalClose'),
     exerciseFrame: document.getElementById('exerciseFrame'),
@@ -41,6 +44,9 @@ const elements = {
     saveSettings: document.getElementById('saveSettings'),
     clearTokenBtn: document.getElementById('clearTokenBtn')
 };
+
+let currentSearchQuery = '';
+let currentLevelFilter = 'all';
 
 // ===== Initialize =====
 document.addEventListener('DOMContentLoaded', async () => {
@@ -70,6 +76,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     initUploadZone();
     initModal();
     initSettingsForm();
+    initFilters();
     await loadBuiltExercises();
     renderExercises();
 });
@@ -348,8 +355,55 @@ async function uploadToGitHub(path, base64Content, message) {
 }
 
 // ===== Exercise Management =====
+// ===== Exercises Filtering & Search =====
+function initFilters() {
+    if (elements.searchInput) {
+        elements.searchInput.addEventListener('input', (e) => {
+            currentSearchQuery = e.target.value.trim().toLowerCase();
+            renderExercises();
+        });
+    }
+
+    const filterChips = document.querySelectorAll('.filter-chips .chip');
+    if (filterChips.length > 0) {
+        filterChips.forEach(chip => {
+            chip.addEventListener('click', () => {
+                currentLevelFilter = chip.getAttribute('data-level') || 'all';
+                filterChips.forEach(c => {
+                    const isActive = (c.getAttribute('data-level') || 'all') === currentLevelFilter;
+                    c.classList.toggle('active', isActive);
+                    c.setAttribute('aria-pressed', isActive ? 'true' : 'false');
+                });
+                renderExercises();
+            });
+        });
+    }
+
+    if (elements.clearFiltersBtn) {
+        elements.clearFiltersBtn.addEventListener('click', resetFilters);
+    }
+}
+
+function resetFilters() {
+    currentSearchQuery = '';
+    currentLevelFilter = 'all';
+    if (elements.searchInput) {
+        elements.searchInput.value = '';
+    }
+    const filterChips = document.querySelectorAll('.filter-chips .chip');
+    if (filterChips.length > 0) {
+        filterChips.forEach(c => {
+            const isActive = (c.getAttribute('data-level') || 'all') === 'all';
+            c.classList.toggle('active', isActive);
+            c.setAttribute('aria-pressed', isActive ? 'true' : 'false');
+        });
+    }
+    renderExercises();
+}
+
+// ===== Exercise Management =====
 function renderExercises() {
-    const { exercisesGrid, emptyState } = elements;
+    const { exercisesGrid, emptyState, noResultsState } = elements;
 
     if (!exercisesGrid || !emptyState) return;
 
@@ -359,11 +413,47 @@ function renderExercises() {
     if (allExercises.length === 0) {
         exercisesGrid.innerHTML = '';
         emptyState.hidden = false;
+        if (noResultsState) noResultsState.hidden = true;
         return;
     }
 
     emptyState.hidden = true;
-    exercisesGrid.innerHTML = allExercises.map(exercise => `
+
+    // Filter exercises based on search query and level filter
+    const filteredExercises = allExercises.filter(exercise => {
+        // Level filter check
+        if (currentLevelFilter !== 'all') {
+            const exLevel = (exercise.level || '').trim().toLowerCase();
+            if (exLevel !== currentLevelFilter.toLowerCase()) {
+                return false;
+            }
+        }
+
+const removeDiacritics = (str) => (str || '').toString().normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+
+        // Search query check (case-insensitive and diacritics-insensitive in title, description, level)
+        if (currentSearchQuery) {
+            const queryClean = removeDiacritics(currentSearchQuery);
+            const nameMatch = removeDiacritics(exercise.name).includes(queryClean);
+            const titleMatch = removeDiacritics(exercise.title).includes(queryClean);
+            const descMatch = removeDiacritics(exercise.description).includes(queryClean);
+            const levelMatch = removeDiacritics(exercise.level).includes(queryClean);
+            if (!nameMatch && !titleMatch && !descMatch && !levelMatch) {
+                return false;
+            }
+        }
+
+        return true;
+    });
+
+    if (filteredExercises.length === 0) {
+        exercisesGrid.innerHTML = '';
+        if (noResultsState) noResultsState.hidden = false;
+        return;
+    }
+
+    if (noResultsState) noResultsState.hidden = true;
+    exercisesGrid.innerHTML = filteredExercises.map(exercise => `
         <article class="exercise-card" data-id="${exercise.id}">
             <div class="exercise-preview"><span aria-hidden="true">${exercise.icon}</span></div>
             <div class="exercise-info">
