@@ -4,7 +4,8 @@
   "description": "Úložiště cvičení z AI Studio Builderu",
   "scripts": {
     "dev": "serve .",
-    "add-exercise": "node scripts/build-exercise.js"
+    "add-exercise": "node scripts/build-exercise.js",
+    "validate:exercises": "node scripts/validate-exercises.mjs"
   },
   "devDependencies": {
     "adm-zip": "^0.5.16",
