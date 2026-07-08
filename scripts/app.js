@@ -466,6 +466,9 @@ const removeDiacritics = (str) => (str || '').toString().normalize("NFD").replac
                     <a href="/exercises/${exercise.folder}/" target="_blank" rel="noopener noreferrer" class="btn btn-primary">
                         ▶️ Spustit
                     </a>
+                    <button type="button" class="btn btn-secondary" onclick="copyExerciseLink('${exercise.id}')" aria-label="Kopírovat odkaz na cvičení ${escapeHtml(exercise.name)}">
+                        📋 Kopírovat odkaz
+                    </button>
                     ${isAdmin ? `
                     <button class="btn btn-secondary btn-sm" onclick="editExercise('${exercise.id}')">
                         ✏️ Upravit
@@ -479,14 +482,47 @@ const removeDiacritics = (str) => (str || '').toString().normalize("NFD").replac
     `).join('');
 }
 
+async function copyExerciseLink(id) {
+    const exercise = builtExercises.find(e => e.id === id);
+    if (!exercise) return;
+
+    const absoluteUrl = `${window.location.origin}/exercises/${exercise.folder}/`;
+
+    try {
+        if (navigator.clipboard && window.isSecureContext) {
+            await navigator.clipboard.writeText(absoluteUrl);
+            showNotification('Odkaz zkopírován.', 'success');
+        } else {
+            const textArea = document.createElement('textarea');
+            textArea.value = absoluteUrl;
+            textArea.style.position = 'fixed';
+            textArea.style.left = '-999999px';
+            textArea.style.top = '-999999px';
+            document.body.appendChild(textArea);
+            textArea.focus();
+            textArea.select();
+            const successful = document.execCommand('copy');
+            textArea.remove();
+            if (successful) {
+                showNotification('Odkaz zkopírován.', 'success');
+            } else {
+                throw new Error('Fallback copy failed');
+            }
+        }
+    } catch (err) {
+        console.error('Failed to copy exercise link:', err);
+        showNotification('Odkaz se nepodařilo zkopírovat. Zkopírujte ho z adresního řádku po otevření cvičení.', 'error');
+    }
+}
+
 function launchExercise(id) {
     const exercise = builtExercises.find(e => e.id === id);
     if (!exercise) return;
 
-    if (exercise.isBuilt) {
+    if (exercise.folder) {
         const url = `/exercises/${exercise.folder}/`;
         try {
-            const opened = window.open(url, '_blank');
+            const opened = window.open(url, '_blank', 'noopener,noreferrer');
             if (!opened) {
                 window.location.assign(url);
             }
@@ -529,6 +565,8 @@ function escapeHtml(text) {
 function showNotification(message, type = 'info') {
     const notification = document.createElement('div');
     notification.className = `notification notification-${type}`;
+    notification.setAttribute('role', 'status');
+    notification.setAttribute('aria-live', 'polite');
     notification.innerHTML = `
         <span>${message}</span>
         <button onclick="this.parentElement.remove()">✕</button>
