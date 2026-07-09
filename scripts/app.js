@@ -55,10 +55,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     if (isAdmin) {
         const uploadSection = document.getElementById('upload');
         const howToSection = document.getElementById('how-to');
-        const adminNavLink = document.getElementById('adminNavLink');
         if (uploadSection) uploadSection.hidden = false;
         if (howToSection) howToSection.hidden = false;
-        if (adminNavLink) adminNavLink.hidden = false;
 
         // Dynamic updates for admin mode
         document.title = "Úložiště cvičení | AI Studio Builder";
@@ -75,6 +73,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     loadGitHubSettings();
     initUploadZone();
     initModal();
+    initTeacherHelpModal();
     initSettingsForm();
     initFilters();
     await loadBuiltExercises();
@@ -575,6 +574,47 @@ function closeModal() {
     elements.modal.hidden = true;
     elements.exerciseFrame.src = '';
     document.body.style.overflow = '';
+}
+
+// ===== Teacher Help Modal =====
+function initTeacherHelpModal() {
+    const link = document.getElementById('teacherHelpLink');
+    const modal = document.getElementById('teacherHelpModal');
+    const backdrop = document.getElementById('teacherHelpBackdrop');
+    const closeTop = document.getElementById('teacherHelpCloseTop');
+    const closeBtn = document.getElementById('teacherHelpCloseBtn');
+    const modalContent = modal ? modal.querySelector('.teacher-help-modal-content') : null;
+
+    if (!link || !modal) return;
+
+    const openModal = (e) => {
+        if (e) e.preventDefault();
+        modal.hidden = false;
+        if (modalContent) {
+            modalContent.focus();
+        } else if (closeTop) {
+            closeTop.focus();
+        }
+    };
+
+    const closeModal = () => {
+        if (modal.hidden) return;
+        modal.hidden = true;
+        link.focus();
+    };
+
+    link.addEventListener('click', openModal);
+
+    if (closeTop) closeTop.addEventListener('click', closeModal);
+    if (closeBtn) closeBtn.addEventListener('click', closeModal);
+    if (backdrop) backdrop.addEventListener('click', closeModal);
+
+    document.addEventListener('keydown', (e) => {
+        if (!modal.hidden && e.key === 'Escape') {
+            e.preventDefault();
+            closeModal();
+        }
+    });
 }
 
 // ===== Utilities =====
