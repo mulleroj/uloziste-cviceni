@@ -37,7 +37,7 @@
                 </div>
                 <nav class="nav">
                     <a href="#exercises" class="nav-link">Cvičení</a>
-                    <a href="#how-to" class="nav-link" id="adminNavLink" hidden>Jak přidat</a>
+                    <a href="#teacher-help" class="nav-link" id="teacherHelpLink">Jak používat</a>
                 </nav>
             </div>
         </header>
@@ -195,6 +195,33 @@
         <div class="modal-content">
             <button class="modal-close" id="modalClose">✕</button>
             <iframe id="exerciseFrame" src="" frameborder="0"></iframe>
+        </div>
+    </div>
+
+    <!-- Teacher Help Modal -->
+    <div class="modal" id="teacherHelpModal" role="dialog" aria-modal="true" aria-labelledby="teacherHelpTitle" hidden>
+        <div class="modal-backdrop" id="teacherHelpBackdrop"></div>
+        <div class="teacher-help-modal-content" tabindex="-1">
+            <div class="teacher-help-header">
+                <div class="teacher-help-title-group">
+                    <span class="teacher-help-icon">💡</span>
+                    <h3 id="teacherHelpTitle">Jak používat miniaplikace ve výuce</h3>
+                </div>
+                <button type="button" class="modal-close-btn" id="teacherHelpCloseTop" aria-label="Zavřít nápovědu">✕</button>
+            </div>
+            <div class="teacher-help-body">
+                <ul class="teacher-help-list">
+                    <li>Každá miniaplikace obsahuje přibližně 80 zadání.</li>
+                    <li>Při jednom spuštění se zobrazí pouze část z nich.</li>
+                    <li>Po znovunačtení stránky nebo po novém otevření aplikace se zobrazí jiná sada vět nebo úkolů.</li>
+                    <li>Miniaplikace lze využít pro krátké procvičení, opakování, samostatnou práci, domácí úkol i práci v hodině.</li>
+                    <li>Tlačítko <strong>„Spustit“</strong> otevře cvičení v novém okně.</li>
+                    <li>Tlačítko <strong>„Kopírovat odkaz“</strong> umožní snadno sdílet konkrétní cvičení žákům nebo kolegům.</li>
+                </ul>
+            </div>
+            <div class="teacher-help-actions">
+                <button type="button" class="btn btn-primary" id="teacherHelpCloseBtn">Zavřít</button>
+            </div>
         </div>
     </div>
 
