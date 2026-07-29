@@ -33,6 +33,15 @@
       "isBuilt": true
     },
     {
+      "id": "built-gramatick-pasti",
+      "name": "gramatick--pasti",
+      "description": "Cvičení z AI Studio Builderu",
+      "icon": "🎮",
+      "created": "2026-07-29",
+      "folder": "gramatick-pasti",
+      "isBuilt": true
+    },
+    {
       "id": "built-mistr-prislovci",
       "name": "Mistr příslovcí",
       "description": "Procvičení příslovcí",
