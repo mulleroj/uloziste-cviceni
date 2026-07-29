@@ -2,6 +2,9 @@
   "name": "Mistr příslovcí",
   "description": "Procvičení příslovcí",
   "icon": "🎯",
-  "updated": "2026-03-07",
-  "level": "Elementary"
+  "level": "Elementary",
+  "updated": "2026-07-29",
+  "useCase": "Krátké procvičení",
+  "estimatedTime": "10 min",
+  "teacherNote": "Pro změnu metodiky během výuky"
 }
