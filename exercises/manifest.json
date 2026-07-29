@@ -34,12 +34,16 @@
     },
     {
       "id": "built-gramatick-pasti",
-      "name": "gramatick--pasti",
-      "description": "Cvičení z AI Studio Builderu",
-      "icon": "🎮",
+      "name": "Gramatické chyby - výběr 7 nejčastějších",
+      "description": "Nejčastější gramatické pasti a návod, jak se jim vyhnout,",
+      "icon": "📝",
+      "level": "Pre-intermediate",
       "created": "2026-07-29",
       "folder": "gramatick-pasti",
-      "isBuilt": true
+      "isBuilt": true,
+      "useCase": "Samostatná práce",
+      "estimatedTime": "5 min",
+      "teacherNote": "vhodné na konec hodiny, obsahuje procvičení z 15 vět"
     },
     {
       "id": "built-mistr-prislovci",
