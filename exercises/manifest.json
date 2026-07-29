@@ -53,7 +53,10 @@
       "level": "Elementary",
       "created": "2026-07-08",
       "folder": "mistr-prislovci",
-      "isBuilt": true
+      "isBuilt": true,
+      "useCase": "Krátké procvičení",
+      "estimatedTime": "10 min",
+      "teacherNote": "Pro změnu metodiky během výuky"
     },
     {
       "id": "built-past-perfect-master",
