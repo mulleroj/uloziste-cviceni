@@ -63,10 +63,12 @@
       "name": "Past perfect",
       "description": "Cvičení na předminulý čas.",
       "icon": "🗣️",
-      "level": "Pre-intermediate",
+      "level": "Intermediate",
       "created": "2026-07-08",
       "folder": "past-perfect-master",
-      "isBuilt": true
+      "isBuilt": true,
+      "useCase": "Samostatná práce",
+      "estimatedTime": "10 min"
     },
     {
       "id": "built-plur-ln-mistr-nepravideln-tvary",
