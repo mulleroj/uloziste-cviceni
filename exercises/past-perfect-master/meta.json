@@ -2,6 +2,8 @@
   "name": "Past perfect",
   "description": "Cvičení na předminulý čas.",
   "icon": "🗣️",
-  "updated": "2026-02-16",
-  "level": "Pre-intermediate"
+  "level": "Intermediate",
+  "updated": "2026-07-29",
+  "useCase": "Samostatná práce",
+  "estimatedTime": "10 min"
 }
