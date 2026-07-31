@@ -46,6 +46,15 @@
       "teacherNote": "vhodné na konec hodiny, obsahuje procvičení z 15 vět"
     },
     {
+      "id": "built-master-english-speech",
+      "name": "master-english-speech",
+      "description": "Cvičení z AI Studio Builderu",
+      "icon": "🎮",
+      "created": "2026-07-31",
+      "folder": "master-english-speech",
+      "isBuilt": true
+    },
+    {
       "id": "built-mistr-prislovci",
       "name": "Mistr příslovcí",
       "description": "Procvičení příslovcí",
