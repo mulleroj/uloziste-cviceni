@@ -1,9 +1,10 @@
 {
-  "id": "built-master-english-speech",
-  "name": "master-english-speech",
-  "description": "Cvičení z AI Studio Builderu",
-  "icon": "🎮",
-  "created": "2026-07-31",
-  "folder": "master-english-speech",
-  "isBuilt": true
+  "name": "Direct and Indirect Speech",
+  "description": "Přímá a nepřímá řeč - vysvětlení a cvičení",
+  "icon": "🗣️",
+  "level": "Intermediate",
+  "updated": "2026-07-31",
+  "useCase": "Opakování",
+  "estimatedTime": "10 min",
+  "teacherNote": "Vhodné pro opakování a procvičení"
 }
