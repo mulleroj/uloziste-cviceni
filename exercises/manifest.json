@@ -13,6 +13,28 @@
       "estimatedTime": "15 min"
     },
     {
+      "id": "built-anglick-asy-interaktivn-pr-vodce",
+      "name": "anglick---asy---interaktivn--pr-vodce",
+      "description": "Cvičení z AI Studio Builderu",
+      "icon": "🎮",
+      "created": "2026-08-01",
+      "folder": "anglick-asy-interaktivn-pr-vodce",
+      "isBuilt": true
+    },
+    {
+      "id": "built-master-english-speech",
+      "name": "Direct and Indirect Speech",
+      "description": "Přímá a nepřímá řeč - vysvětlení a cvičení",
+      "icon": "🗣️",
+      "level": "Intermediate",
+      "created": "2026-07-31",
+      "folder": "master-english-speech",
+      "isBuilt": true,
+      "useCase": "Opakování",
+      "estimatedTime": "10 min",
+      "teacherNote": "Vhodné pro opakování a procvičení"
+    },
+    {
       "id": "built-conditional-mastery",
       "name": "First and Second Conditional Mastery",
       "description": "Cvičení na First a Second Conditional.",
@@ -44,19 +66,6 @@
       "useCase": "Samostatná práce",
       "estimatedTime": "5 min",
       "teacherNote": "vhodné na konec hodiny, obsahuje procvičení z 15 vět"
-    },
-    {
-      "id": "built-master-english-speech",
-      "name": "Direct and Indirect Speech",
-      "description": "Přímá a nepřímá řeč - vysvětlení a cvičení",
-      "icon": "🗣️",
-      "level": "Intermediate",
-      "created": "2026-07-31",
-      "folder": "master-english-speech",
-      "isBuilt": true,
-      "useCase": "Opakování",
-      "estimatedTime": "10 min",
-      "teacherNote": "Vhodné pro opakování a procvičení"
     },
     {
       "id": "built-mistr-prislovci",
