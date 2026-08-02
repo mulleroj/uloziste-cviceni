@@ -14,12 +14,16 @@
     },
     {
       "id": "built-anglick-slovn-druhy-a-svompt",
-      "name": "anglick--slovn--druhy-a-svompt",
-      "description": "Cvičení z AI Studio Builderu",
-      "icon": "🎮",
+      "name": "Slovní druhy  - SVOMPT systém",
+      "description": "Pořadí slov ve větě.",
+      "icon": "✏️",
+      "level": "Elementary",
       "created": "2026-08-02",
       "folder": "anglick-slovn-druhy-a-svompt",
-      "isBuilt": true
+      "isBuilt": true,
+      "useCase": "Opakování",
+      "estimatedTime": "15 min",
+      "teacherNote": "procvičení před testem"
     },
     {
       "id": "built-anglick-asy-interaktivn-pr-vodce",
