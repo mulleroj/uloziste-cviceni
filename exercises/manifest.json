@@ -13,6 +13,15 @@
       "estimatedTime": "15 min"
     },
     {
+      "id": "built-anglick-slovn-druhy-a-svompt",
+      "name": "anglick--slovn--druhy-a-svompt",
+      "description": "Cvičení z AI Studio Builderu",
+      "icon": "🎮",
+      "created": "2026-08-02",
+      "folder": "anglick-slovn-druhy-a-svompt",
+      "isBuilt": true
+    },
+    {
       "id": "built-anglick-asy-interaktivn-pr-vodce",
       "name": "Anglické časy",
       "description": "Přehled všech časů se cvičením",
