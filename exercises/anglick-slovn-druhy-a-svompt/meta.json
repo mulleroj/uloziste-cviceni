@@ -1,9 +1,10 @@
 {
-  "id": "built-anglick-slovn-druhy-a-svompt",
-  "name": "anglick--slovn--druhy-a-svompt",
-  "description": "Cvičení z AI Studio Builderu",
-  "icon": "🎮",
-  "created": "2026-08-02",
-  "folder": "anglick-slovn-druhy-a-svompt",
-  "isBuilt": true
+  "name": "Slovní druhy  - SVOMPT systém",
+  "description": "Pořadí slov ve větě.",
+  "icon": "✏️",
+  "level": "Elementary",
+  "updated": "2026-08-02",
+  "useCase": "Opakování",
+  "estimatedTime": "15 min",
+  "teacherNote": "procvičení před testem"
 }
